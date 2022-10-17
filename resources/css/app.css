@@ -1,0 +1,35 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+body{
+    font-family: 'Nunito', sans-serif;
+}
+
+/* custom backgrounds color */
+.blue-bg-app{
+  background-color: #1B214E;
+}
+.blue-card-app{
+    background-color: #2A3165;
+}
+.blue-btn-default{
+   background-color: #383D6E;
+}
+.blue-btn-selected{
+   background-color: #0366C9;
+}
+.blue-tile-app{
+    background-color: #2A3165;
+}
+
+/*custom btn backgrounds colors*/
+.blue-btn-default{
+    background-color: #383D6E;
+}
+.blue-btn-selected{
+    background-color: #0366C9;
+}
+.violet-icons{
+    background-color: #767DB6;
+}
