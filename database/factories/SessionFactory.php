@@ -29,8 +29,9 @@ class SessionFactory extends Factory
         return [
             'open' => 0,
             'slug' =>  $slug,
-            'qrcode' => (new QRCode)->render(route('survey-slug',$slug)),
+            'qrcode' => (new QRCode)->render(route('session.index',$slug)),
             'satisfaction_rate' => null,
+            'title' => $this->faker->words(5),
             'created_at' => now(),
             'updated_at' => now(),
         ];

@@ -17,7 +17,14 @@ class Survey extends Model
     protected $guarded = [];
     const STANDARD_SURVEY_TITLE = 'Votre avis est important';
     const STANDARD_SURVEY_DESCRIPTION = 'description du questionnaire standard avec commentaires etc...';
-
+    const STANDARD_SURVEY_ILLUSTRATIONS = [
+        'undraw.buddies',
+        'undraw.grandma',
+        'undraw.having_fun',
+        'undraw.inlove',
+        'undraw.waiting',
+        'undraw.pride',
+    ];
     /**
      * @return SurveyFactory
      */
@@ -39,7 +46,7 @@ class Survey extends Model
      */
     public function questions(): BelongsToMany
     {
-        return $this->belongsToMany(Question::class);
+        return $this->belongsToMany(Question::class)->orderBy('id','asc');
     }
 
 

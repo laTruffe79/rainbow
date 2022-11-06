@@ -15,8 +15,13 @@ class Purpose extends Model
 
     protected $guarded = [];
 
-    const SMILEYS = ['225-happy2','227-smile2','253-wondering2','239-angry-2'];
-    const STANDARD_PURPOSES  = ['Très satisfait(e)', 'Satisfait(e)','Peu satisfait(e)','Très insatisfait(e)'];
+    const SMILEYS = [
+        'icon-fontawesome.svgs.regular.face-laugh-beam',
+        'icon-fontawesome.svgs.regular.face-smile',
+        'icon-fontawesome.svgs.regular.face-meh',
+        'icon-fontawesome.svgs.regular.face-frown'
+    ];
+    const STANDARD_PURPOSES  = ['Très satisfait(e)', 'Satisfait(e)','Peu satisfait(e)','Insatisfait(e)'];
 
 
     /**

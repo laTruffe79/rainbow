@@ -2,6 +2,8 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Question;
+use App\Models\Session;
 use App\Models\Survey;
 use Illuminate\Contracts\Foundation\Application;
 use Illuminate\Contracts\View\Factory;
@@ -13,19 +15,9 @@ use function view;
 class SurveyController extends Controller
 {
 
-    /**
-     * @param $slug
-     * @return Application|Factory|View
-     */
-    public function index($slug):Application|Factory|View
+
+    public function index()
     {
-
-        $session = \App\Models\Session::where('slug',$slug)->with(['survey','school'])->first();
-        \dd($session);
-        $data = compact('slug');
-
-
-        return view('survey.survey-home',$data);
 
     }
 

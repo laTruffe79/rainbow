@@ -33,6 +33,7 @@ return new class extends Migration
                 $table->binary('qrcode');
                 $table->string('slug', 100);
                 $table->float('satisfaction_rate', 2, 1)->nullable();
+                $table->string('title',50);
                 $table->timestamps();
                 $table->softDeletes();
             });

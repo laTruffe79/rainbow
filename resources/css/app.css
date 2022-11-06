@@ -10,7 +10,7 @@ body{
 .blue-bg-app{
   background-color: #1B214E;
 }
-.blue-card-app{
+    .blue-card-app{
     background-color: #2A3165;
 }
 .blue-btn-default{
@@ -33,3 +33,5 @@ body{
 .violet-icons{
     background-color: #767DB6;
 }
+
+[x-cloak] { display: none !important; }

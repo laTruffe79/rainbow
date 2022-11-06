@@ -18,12 +18,15 @@ class ParticipantFactory extends Factory
      *
      * @return array<string, mixed>
      */
-    public function definition()
+    public function definition(): array
     {
         return [
             'pseudo' => $this->faker->firstName.strval(\rand(1,100)),
+            'token' => \Str::random(32),
+            'token_is_valid' => 1,
             'created_at' => now(),
             'updated_at' => now(),
+            'satisfaction_rate' => 0,
         ];
     }
 }

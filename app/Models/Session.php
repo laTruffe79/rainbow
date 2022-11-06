@@ -12,6 +12,8 @@ class Session extends Model
 {
     use HasFactory;
 
+    const DEFAULT_SESSION_TITLE = 'Classes 3eA à 3eC';
+
     protected $guarded = [];
     protected $table = 'sessions';
 

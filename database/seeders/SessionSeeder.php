@@ -23,9 +23,10 @@ class SessionSeeder extends Seeder
         $survey = Survey::all()->first();
 
         Session::factory()->create([
-           'school_id' => $school->id,
-           'survey_id' => $survey->id,
-           'animator_id' => $animator->id,
+            'school_id' => $school->id,
+            'survey_id' => $survey->id,
+            'animator_id' => $animator->id,
+            'title' => Session::DEFAULT_SESSION_TITLE,
         ]);
 
     }

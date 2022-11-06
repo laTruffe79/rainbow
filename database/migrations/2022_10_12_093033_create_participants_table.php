@@ -23,7 +23,17 @@ return new class extends Migration
                 ->references('id')
                 ->on('sessions')
                 ->onDelete('cascade');
-
+            $table->string('token',45);
+            $table->unsignedBigInteger('question_id')
+                ->nullable();
+            $table->foreign('question_id')
+                ->references('id')
+                ->on('questions');
+            $table->unsignedBigInteger('last_question_id');
+            $table->foreign('last_question_id')
+                ->references('id')
+                ->on('questions');
+            $table->boolean('token_is_valid')->default(1);
             $table->timestamps();
             $table->softDeletes();
         });
