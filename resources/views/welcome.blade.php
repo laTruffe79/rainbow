@@ -20,15 +20,14 @@
      style="position: fixed; top: 50%; left: 50%; transform: translate(-50%, -50%); z-index: 10; margin: auto; width: 600px ; height: 600px; overflow: auto;"
      class="justify-center items-center bg-gray-200">
 
-    <div @click.outside="show=false" class="z-50 mx-auto text-center bg-transparent w-1/3">
+    <div @click.outside="show=false" class="z-50 mx-auto text-center bg-transparent w-full">
         <img x-bind:src="qrCodeData" src="" alt="" height="600px" width="600px" />
     </div>
 
 </div>
 {{-- End Modal QR Code --}}
 
-<div
-    class="relative flex items-top justify-center min-h-screen blue-bg-app dark:blue-bg-app sm:items-center py-4 sm:pt-0">
+<div class="relative flex items-top justify-center min-h-screen blue-bg-app dark:blue-bg-app sm:items-center py-4 sm:pt-0">
 
     <div class="w-5/6 mx-auto sm:px-6 lg:px-8 relative">
 
@@ -49,7 +48,7 @@
             @foreach($sessions as $key => $session)
                 {{--Item--}}
                 <div class="flex w-full h-auto p-5">
-                    <div x-data class="w-12">
+                    <div  class="w-12">
                         <a title="Afficher le QR Code" x-on:click="$dispatch('modal','{{$session->qrcode}}')" href="javascript:void(0)" data-bs-toggle="modal" data-bs-target="#exampleModal">
                             <x-icon-icomoon.057-qrcode class="w-8 h-8 fill-cyan-400"/>
                         </a>
@@ -58,7 +57,8 @@
                     <div class="w-auto">
                         <a href="#" class=" leading-7 font-bold underline text-gray-200">
                             {{$session->created_at->format('d-m-Y')}}
-                            {{$session->school->name}}
+                            {{$session->school->name}} -
+                            <span class="italic">{{$session->animator->name}}</span>
                         </a>
                     </div>
                     <div class=" flex-1 text-right">
@@ -79,8 +79,6 @@
             @endforeach
         </div>
 
-
-
         <div class="flex justify-center mt-4 sm:items-center sm:justify-between">
 
             <div class="ml-4 text-center text-sm text-gray-500 sm:text-right sm:ml-0">
@@ -88,8 +86,6 @@
             </div>
         </div>
     </div>
-
-
 
 </div>
 

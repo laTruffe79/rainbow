@@ -42,7 +42,7 @@
             {{--@svg('icon-lgbt.Lesbian couple-amico',"h-36 w-36")--}}
         </div>
     </div>
-    <div class="w-screen px-8 text-gray-200">
+    <div class="w-screen px-8 text-gray-200" x-data="{acceptPolicy:false}">
         <h2 class="text-gray-200 text-xl my-8 text-center">
             Merci pour votre participation
         </h2>
@@ -51,11 +51,28 @@
             <br>Merci. </h2>
         <form action="">
 
-            <div class="w-full text-center text-gray-200 mt-6">
-                <a href="{{route('start-survey',['slug'=>$session->slug,'sessionId' => $session->id])}}" class="px-8 w-full text-gray-200 py-4 rounded-lg bg-gradient-to-r
-       from-violet-900 to-fuchsia-600 hover:bg-fuchsia-600
-        transition-all transition ease-in-out duration-1000 font-bold" type="submit">Commencer</a>
+            <div class="flex items-center mb-4 mt-2">
+                <input x-model="acceptPolicy" id="default-checkbox" type="checkbox" value="" class="w-4 h-4 mr-2 text-blue-600 bg-gray-100 rounded border-gray-300 focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600">
+                <label for="default-checkbox" class="ml-2  text-sm font-medium text-gray-900 dark:text-gray-300">
+                    <a class="ml-2 underline text-sm" href="{{route('legal-notice.index',['slug'=>$session->slug])}}">
+                        J'accepte la politique de confidentialité des données conforme au RGPD.
+                    </a>
+                </label>
             </div>
+
+            <div class="w-full text-center text-gray-200 mt-6">
+                <div
+                    x-bind:class="!acceptPolicy ? 'to-violet-900' : 'to-fuchsia-600'"
+                   class=" w-full text-gray-200 py-4 rounded-lg bg-gradient-to-r
+       from-violet-900  hover:bg-fuchsia-600
+        transition-all transition ease-in-out duration-1000 font-bold text-center">
+                    <a x-bind:href="!acceptPolicy ? 'javascript:void(0)' : '{{route('start-survey',['slug'=>$session->slug,'sessionId' => $session->id])}}'"
+                       href="{{route('start-survey',['slug'=>$session->slug,'sessionId' => $session->id])}}">
+                        Commencer
+                    </a>
+                </div>
+            </div>
+
         </form>
 
     </div>

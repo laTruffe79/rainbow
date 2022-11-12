@@ -36,7 +36,7 @@ class SessionController extends Controller
             $data = \compact('session', 'illustrations');
 
             //@todo comment this for prod version
-            \Illuminate\Support\Facades\Session::flush();
+            //\Illuminate\Support\Facades\Session::flush();
 
         } catch (\Exception $e) {
 
@@ -64,52 +64,62 @@ class SessionController extends Controller
             ->first();
         //\dd($session);
 
-        $questions = $session->survey->questions;
-        //\dd($questions);
-
         $answers = \App\Models\Answer::with(['purpose'])
             ->where('session_id',$session->id)
             ->get();
-
         //\dd($answers);
-
-        $resultByQuestion = array();
-
-        foreach ($answers as $answer){
-            if(!isset($resultByQuestion[$answer->question_id])){
-                $resultByQuestion[$answer->question_id] = $answer->purpose->satisfied;
-            }else{
-                $resultByQuestion[$answer->question_id] += $answer->purpose->satisfied;
-            }
-        }
 
         $countParticipants = DB::table('answers')->distinct('participant_id')
             ->where('session_id',$session->id)
             ->count('participant_id');
 
-        //\dd($countParticipants);
+        if(\count($answers)>0){
 
-        // get positive and negative comments
-        $positiveAnswers = Answer::where('session_id',$session->id)
-            ->whereNotNull('comment')
-            ->whereHas('purpose', function($q){
-                return $q->where('satisfied',1);
-            })
-            ->with(['participant','purpose'])
-            ->get();
-        //\dd($positiveAnswers);
+            $questions = $session->survey->questions;
+            //\dd($questions);
 
-        $negativeAnswers = Answer::where('session_id',$session->id)
-            ->whereNotNull('comment')
-            ->whereHas('purpose', function($q){
-                return $q->where('satisfied',0);
-            })
-            ->with(['participant','purpose'])
-            ->get();
-        //\dd($negativeAnswers);
+            $resultByQuestion = array();
+
+            foreach ($answers as $answer){
+                if(!isset($resultByQuestion[$answer->question_id])){
+                    $resultByQuestion[$answer->question_id] = $answer->purpose->satisfied;
+                }else{
+                    $resultByQuestion[$answer->question_id] += $answer->purpose->satisfied;
+                }
+            }
+
+
+
+            //\dd($countParticipants);
+
+            // get positive and negative comments
+            $positiveAnswers = Answer::where('session_id',$session->id)
+                ->whereNotNull('comment')
+                ->whereHas('purpose', function($q){
+                    return $q->where('satisfied',1);
+                })
+                ->with(['participant','purpose'])
+                ->get();
+            //\dd($positiveAnswers);
+
+            $negativeAnswers = Answer::where('session_id',$session->id)
+                ->whereNotNull('comment')
+                ->whereHas('purpose', function($q){
+                    return $q->where('satisfied',0);
+                })
+                ->with(['participant','purpose'])
+                ->get();
+            //\dd($negativeAnswers);
+
+            return \view('session-result',
+                \compact('session','questions','resultByQuestion','countParticipants','positiveAnswers','negativeAnswers'));
+
+
+        }
 
         return \view('session-result',
-            \compact('session','questions','resultByQuestion','countParticipants','positiveAnswers','negativeAnswers'));
+            \compact('session','countParticipants'));
+
 
     }
     /**

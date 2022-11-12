@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\AnswerController;
+use App\Http\Controllers\LegalNoticeController;
 use App\Http\Controllers\Restricted\HomeController;
 use App\Http\Controllers\SessionController;
 use Illuminate\Support\Facades\Route;
@@ -17,9 +18,9 @@ use Illuminate\Support\Facades\Route;
 */
 
 Route::get('/admin/home', [HomeController::class,'index'])->name('adminHome');
-Route::get('/session/result/{slug}',[SessionController::class,'showResult'])->name('session.show-result');
-Route::get('/session/create',[SessionController::class, 'create'])->name('session.create');
-Route::post('/session/store',[SessionController::class,'store'])->name('session.store');
+Route::get('admin/session/result/{slug}',[SessionController::class,'showResult'])->name('session.show-result');
+Route::get('admin/session/create',[SessionController::class, 'create'])->name('session.create');
+Route::post('admin/session/store',[SessionController::class,'store'])->name('session.store');
 
 /* protected routes against not opened sessions */
 Route::middleware(['session.is.open'])->group(function (){
@@ -42,6 +43,7 @@ Route::middleware(['session.is.open'])->group(function (){
 
 });
 
+Route::get('legal-notice/{slug}',[LegalNoticeController::class,'index'])->name('legal-notice.index');
 
 
 

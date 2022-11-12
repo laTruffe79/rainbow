@@ -56,43 +56,77 @@
 
             </h2>
             <hr class="text-gray-200 mb-5">
-            @foreach($questions as $question)
-                <div class="my-4">
-                    <h2 class="text-gray-200">{{$question->question}}</h2>
-                    <div class="grid grid-rows-1 grid-flow-col gap-4 mt-4">
-                        <div class="bg-gray-200 rounded-lg text-center"
-                             style="width: {{ $resultByQuestion[$question->id]*100/$countParticipants  }}%">
-                            <span
-                                class="px-6">{{round($resultByQuestion[$question->id]*100/$countParticipants,1)}} %</span>
+
+            @if(isset($resultByQuestion) && $resultByQuestion !== null)
+                @foreach($questions as $question)
+                    <div class="my-4">
+                        <h2 class="text-gray-200">{{$question->question}}</h2>
+                        <div class="grid grid-rows-1 grid-flow-col gap-4 mt-4">
+
+                                @if(round($resultByQuestion[$question->id]*100/$countParticipants,1) == 0)
+                                <div class="bg-transparent rounded-lg text-left"
+                                     style="width: auto">
+                                    <span
+                                        class="px-6 text-gray-200">0%</span>
+                                </div>
+                                    @else
+                                    <div class="bg-gray-200 rounded-lg text-center"
+                                         style="width: {{ $resultByQuestion[$question->id]*100/$countParticipants  }}%"><span
+                                        class="px-6">{{round($resultByQuestion[$question->id]*100/$countParticipants,1)}} %</span>
+                                    </div>
+                            @endif
+
+
                         </div>
                     </div>
+                @endforeach
+
+                <hr class="text-gray-200"/>
+
+                <div x-data="{showPositiveAnswers:false}">
+                    <h2 title="Afficher/masquer les commentaire positifs"
+                        x-on:click="showPositiveAnswers=!showPositiveAnswers"
+                        class="text-gray-200 text-xl my-4 cursor-pointer underline inline-flex">Commentaires parmi les réactions positives</h2>
+                    <ul x-show="showPositiveAnswers"
+                        x-transition:enter.duration.300ms
+                        x-transition:leave.duration.400ms
+                        class="text-gray-200">
+                        @foreach($positiveAnswers as $negativeAnswer)
+
+                            <li class="mb-5">De {{$negativeAnswer->participant->pseudo}} :
+                                <span class="italic">"{{$negativeAnswer->comment}}"</span>
+                            </li>
+
+                        @endforeach
+                    </ul>
                 </div>
-            @endforeach
 
-            <hr class="text-gray-200"/>
+                <hr class="text-gray-200"/>
+                <div x-data="{showNegativeAnswers:false}">
+                    <h2 title="Afficher/masquer les commentaires négatifs"
+                        x-on:click="showNegativeAnswers= !showNegativeAnswers"
+                        class="text-gray-200 text-xl my-4 cursor-pointer underline inline-flex">
+                        Commentaires parmi les réactions négatives
+                    </h2>
+                    <ul x-show="showNegativeAnswers"
+                        x-transition:enter.duration.300ms
+                        x-transition:leave.duration.400ms
+                        class="text-gray-200">
+                        @foreach($negativeAnswers as $negativeAnswer)
 
-            <h2 class="text-gray-200 text-xl text-center my-4 ">Commentaires parmi les réactions positives</h2>
-            <ul class="text-gray-200">
-                @foreach($positiveAnswers as $negativeAnswer)
+                            <li class="mb-5">De {{$negativeAnswer->participant->pseudo}} :
+                                <span class="italic">"{{$negativeAnswer->comment}}"</span>
+                            </li>
 
-                    <li class="mb-5">De {{$negativeAnswer->participant->pseudo}} :
-                        <span class="italic">"{{$negativeAnswer->comment}}"</span>
-                    </li>
+                        @endforeach
+                    </ul>
+                </div>
 
-                @endforeach
-            </ul>
-            <hr class="text-gray-200"/>
+            @else
+                <h2 class="text-gray-200">Pas encore de résultats disponibles pour cette session</h2>
+            @endif
 
-            <h2 class="text-gray-200 text-xl text-center my-4 ">Commentaires parmi les réactions négatives</h2>
-            <ul class="text-gray-200">
-                @foreach($negativeAnswers as $negativeAnswer)
 
-                    <li class="mb-5">De {{$negativeAnswer->participant->pseudo}} :
-                        <span class="italic">"{{$negativeAnswer->comment}}"</span>
-                    </li>
-
-                @endforeach
-            </ul>
 
         </div>
 
