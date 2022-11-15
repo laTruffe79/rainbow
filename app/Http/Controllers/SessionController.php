@@ -8,6 +8,7 @@ use App\Models\Question;
 use App\Models\School;
 use App\Models\Session;
 use App\Models\Survey;
+use Barryvdh\DomPDF\Facade\Pdf;
 use Illuminate\Contracts\Foundation\Application;
 use Illuminate\Contracts\View\Factory;
 use Illuminate\Contracts\View\View;
@@ -88,8 +89,6 @@ class SessionController extends Controller
                 }
             }
 
-
-
             //\dd($countParticipants);
 
             // get positive and negative comments
@@ -111,8 +110,33 @@ class SessionController extends Controller
                 ->get();
             //\dd($negativeAnswers);
 
+            $file = '';
+            $pdfView = true;
+
+            //convert logo to base64 in order to generate pdf
+            $path = \asset('img/logo-adheos.png');
+            $type = \pathinfo($path,PATHINFO_EXTENSION);
+            $aContext = array(
+                'ssl' => array(
+                    'verify_peer' => false,
+                ),
+            );
+            $context = stream_context_create($aContext);
+            $data = \file_get_contents($path,false,$context);
+            $base64Logo = 'data:image/' . $type . ';base64,' . base64_encode($data);
+
+            // Export data to pdf
+            $pdf = Pdf::loadView('session-result',
+                compact('session','questions','resultByQuestion','countParticipants',
+                    'positiveAnswers','negativeAnswers','file','pdfView','base64Logo'));
+
+            $file = base64_encode($pdf->output([0]));
+
+            $pdfView = false;
+
             return \view('session-result',
-                \compact('session','questions','resultByQuestion','countParticipants','positiveAnswers','negativeAnswers'));
+                \compact('session','questions','resultByQuestion','countParticipants',
+                    'positiveAnswers','negativeAnswers','file','pdfView','base64Logo'));
 
 
         }
@@ -286,6 +310,7 @@ class SessionController extends Controller
             'name' => 'required_without:school_id|regex:/^[a-zA-Zéèàçôïâ0-9\'\.,\- ]{1,50}$/i|max:50',
             'phone' => 'required_without:school_id|digits:10|nullable',
             'email' => 'required_without:school_id|email|nullable',
+            'contact' => 'string|max:100|nullable',
         ]);
 
         //\dd($validated);
@@ -297,6 +322,7 @@ class SessionController extends Controller
                     'name' => $validated['name'],
                     'phone' => $validated['phone'],
                     'email' => $validated['email'],
+                    'contact' => $validated['contact'],
                 ]);
         }else{
             $school = \App\Models\School::find($request->id);

@@ -148,6 +148,25 @@
                     </div>
                 </div>
 
+                {{--school contact--}}
+                <div class="flex justify-start mt-8 mb-8">
+                    <div class="mb-3 w-full">
+                        <input
+                            x-bind:disabled="selectedSchoolId !== ''"
+                            type="text"
+                            class="form-control w-full
+                                block w-full py-2 text-lg font-normal text-gray-700
+                                bg-gray-200 bg-clip-padding border border-solid border-gray-300
+                                rounded-lg transition ease-in-out focus:text-gray-700 focus:bg-white"
+                            id="contact"
+                            name="contact"
+                            pattern="^[a-zA-Zéèàçôïâ0-9'\.,\- ]{1,100}$"
+                            style="padding-left: 6px;"
+                            placeholder="Contact de l'établissement"
+                        />
+                    </div>
+                </div>
+
                 {{--school email--}}
                 <div class="flex justify-start mt-8 mb-8">
                     <div class="mb-3 w-full">
@@ -161,7 +180,7 @@
                             id="email"
                             name="email"
                             style="padding-left: 6px;"
-                            placeholder="E-mail de l'établissement"
+                            placeholder="E-mail contact de l'établissement"
                         />
                     </div>
                 </div>

@@ -6,7 +6,17 @@
     <title>{{ config('app.name') }}</title>
     <link rel="icon" type="image/svg+xml" href="{{asset('favicon.svg')}}">
 
-    <link rel="stylesheet" href="{{ mix('css/app.css') }}">
+    @if($pdfView)
+        <style>
+            body { font-family: Arial, sans-serif; }
+            h1{ font-size: 24px;color: #2A3165;text-align: center; }
+            h2{ font-size: 14px;color: #2A3165; }
+            h3{ font-size: 12px;color: #2A3165; }
+        </style>
+    @else
+        <link rel="stylesheet" href="{{ mix('css/app.css') }}" media="all">
+    @endif
+
     @livewireStyles
 
 </head>
@@ -21,15 +31,23 @@
             @svg('logo',"h-36 w-36")
         </div>
 
-        <div class="my-4">
-            <x-custom-btn href="{{route('adminHome')}}" text="Retour liste des sessions"></x-custom-btn>
-        </div>
+        @if(!$pdfView)
+            <div class="my-4">
+                <x-custom-btn href="{{route('adminHome')}}" text="Retour liste des sessions"></x-custom-btn>
+            </div>
+        @endif
 
         <div
             class="mt-8 px-6 py-4 bg-white blue-card-app dark:blue-card-app overflow-hidden border border-gray-200 rounded-lg">
 
+            @if($pdfView)
+                <div style="">
+                    <img src="{{$base64Logo}}" alt="" width="207" height="162">
+                </div>
+            @endif
+
             <div class="text-center pt-4 mb-5">
-                <h2 class="text-gray-200 font-bold text-2xl">Rapport d'évaluation de la session </h2>
+                <h1 class="text-gray-200 font-bold text-2xl">Synthèse d'évaluation de la session </h1>
             </div>
 
             <h2 class="text-gray-200 text-left text-lg mb-5">
@@ -39,6 +57,14 @@
                     {{$session->school->name}}
                 </span>
                 <br>
+                @if(isset($session->school->contact))
+                    <span class="text-sm italic inline-flex items-center">
+                        @svg('icon-fontawesome.svgs.regular.user','h-4 w-4 fill-current text-gray-200 mr-2 inline-block')
+                        Contact : {{$session->school->contact}}
+                    </span>
+                    <br>
+                @endif
+
                 <span class="text-sm italic inline-flex">
                 @svg('icon-fontawesome.svgs.solid.chalkboard-user','h-4 w-4 fill-current text-gray-200 mr-2 inline-block')
                     {{ucfirst($session->animator->name)}}
@@ -63,25 +89,34 @@
                         <h2 class="text-gray-200">{{$question->question}}</h2>
                         <div class="grid grid-rows-1 grid-flow-col gap-4 mt-4">
 
-                                @if(round($resultByQuestion[$question->id]*100/$countParticipants,1) == 0)
-                                <div class="bg-transparent rounded-lg text-left"
-                                     style="width: auto">
-                                    <span
-                                        class="px-6 text-gray-200">0%</span>
+                            @if(round($resultByQuestion[$question->id]*100/$countParticipants,1) == 0)
+                            <div class="bg-transparent rounded-lg text-left"
+                                 style="width: auto">
+                                <span
+                                    class="px-6 text-gray-200">0%</span>
+                            </div>
+                            @else
+                                <div class="bg-gray-200 rounded-lg text-center"
+                                     style="width: {{ $resultByQuestion[$question->id]*100/$countParticipants  }}%; background-color:#BC26D1;
+                                     {!! $pdfView ? 'text-align:center;color:#fff;border-radius: 30% 30% 30% 30%;': ''!!}"><span
+                                    class="px-6">{{round($resultByQuestion[$question->id]*100/$countParticipants,1)}} %</span>
                                 </div>
-                                    @else
-                                    <div class="bg-gray-200 rounded-lg text-center"
-                                         style="width: {{ $resultByQuestion[$question->id]*100/$countParticipants  }}%"><span
-                                        class="px-6">{{round($resultByQuestion[$question->id]*100/$countParticipants,1)}} %</span>
-                                    </div>
                             @endif
-
 
                         </div>
                     </div>
                 @endforeach
 
+                @if(!$pdfView)
+
                 <hr class="text-gray-200"/>
+
+                @livewire('send-report',['animateur' => $session->animator->name ,
+                                    'date' => $session->created_at->format('d M Y'),
+                                    'attachmentContent' => $file,
+                                     'schoolEmail' => $session->school->email ])
+
+                <hr class="text-gray-200 mt-6"/>
 
                 <div x-data="{showPositiveAnswers:false}">
                     <h2 title="Afficher/masquer les commentaire positifs"
@@ -121,21 +156,36 @@
                         @endforeach
                     </ul>
                 </div>
-
+                @endif
             @else
                 <h2 class="text-gray-200">Pas encore de résultats disponibles pour cette session</h2>
             @endif
 
 
 
+
+
         </div>
 
-        <div class="flex justify-center mt-4 sm:items-center sm:justify-between">
-
-            <div class="ml-4 text-center text-sm text-gray-500 sm:text-right sm:ml-0">
-                Laravel v{{ Illuminate\Foundation\Application::VERSION }} (PHP v{{ PHP_VERSION }})
+        @if(!$pdfView)
+            <div class="flex justify-center mt-4 sm:items-center sm:justify-between">
+                <div class="ml-4 text-center text-sm text-gray-500 sm:text-right sm:ml-0">
+                    Laravel v{{ Illuminate\Foundation\Application::VERSION }} (PHP v{{ PHP_VERSION }})
+                </div>
             </div>
-        </div>
+        @else
+            <hr style="margin-top: 20px;margin-bottom: 20px">
+            <div style="text-align: center">
+                <h2>Adhéos association LGBTI & friendly <br>
+                    5, passage Ancienne Caserne<br>
+                    17100 Saintes <br>
+                    Tél : 06 26 39 66 13 <br>
+                    web : https://www.adheos.org
+                </h2>
+            </div>
+
+        @endif
+
     </div>
 
 
@@ -143,5 +193,19 @@
 
 <script src="{{ mix('js/app.js') }}" defer></script>
 @livewireScripts
+
+<script type="text/javascript">
+    window.onload = function() {
+        Livewire.on('alert-remove', () => {
+            setTimeout(function(){
+                document.querySelector('.success').remove();
+            },3000);
+
+            setTimeout(function(){
+                //document.querySelector('.error').remove();
+            },3000);
+        })
+    }
+</script>
 </body>
 </html>

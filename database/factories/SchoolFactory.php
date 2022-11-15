@@ -28,6 +28,7 @@ class SchoolFactory extends Factory
             'name' => 'Collège '.$this->faker->firstName.' '.$this->faker->lastName.' de '.$this->faker->city,
             'phone' => '0'.$this->faker->numerify('#########'),
             'email' => $this->faker->email,
+            'contact' => $this->faker->jobTitle,
             'created_at' => now(),
             'updated_at' => now(),
         ];

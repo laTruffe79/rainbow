@@ -6,6 +6,7 @@
     "license": "MIT",
     "require": {
         "php": "^8.1",
+        "barryvdh/laravel-dompdf": "^2.0",
         "blade-ui-kit/blade-icons": "^1.4",
         "chillerlan/php-qrcode": "^4.3",
         "guzzlehttp/guzzle": "^7.2",
@@ -13,7 +14,8 @@
         "laravel/sanctum": "^3.0",
         "laravel/tinker": "^2.7",
         "livewire/livewire": "^2.10",
-        "owenvoke/blade-fontawesome": "^2.0"
+        "owenvoke/blade-fontawesome": "^2.0",
+        "sendinblue/api-v3-sdk": "^8.3"
     },
     "require-dev": {
         "barryvdh/laravel-ide-helper": "^2.12",
