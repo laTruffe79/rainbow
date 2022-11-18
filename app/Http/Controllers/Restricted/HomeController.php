@@ -23,7 +23,7 @@ class HomeController extends \App\Http\Controllers\Controller
      */
     public function index():Application|Factory|View
     {
-        $sessions = Session::orderBy('id','desc')->with(['school','animator'])->get();
+        $sessions = Session::orderBy('id','desc')->with(['school','animator'])->paginate(10);
 
         $data = compact('sessions');
         return view('welcome', $data);

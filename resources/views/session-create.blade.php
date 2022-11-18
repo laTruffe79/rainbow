@@ -58,7 +58,7 @@
                             name="title"
                             pattern="^[a-zA-Zéèàçôïâ0-9'\.,\- ]{1,50}$"
                             required
-                            placeholder="* Titre de la session"
+                            placeholder="* Titre de la session (ex : 3eA à 3eC)"
                         />
                     </div>
                 </div>
@@ -162,7 +162,7 @@
                             name="contact"
                             pattern="^[a-zA-Zéèàçôïâ0-9'\.,\- ]{1,100}$"
                             style="padding-left: 6px;"
-                            placeholder="Contact de l'établissement"
+                            placeholder="Contact de l'établissement (ex : Infirmière scolaire, principal, CPE)"
                         />
                     </div>
                 </div>

@@ -36,17 +36,15 @@ class SessionController extends Controller
             $illustrations = Survey::STANDARD_SURVEY_ILLUSTRATIONS;
             $data = \compact('session', 'illustrations');
 
-            //@todo comment this for prod version
-            //\Illuminate\Support\Facades\Session::flush();
+            //destroy session data for test usage in debug environment
+            if(\config('app.debug'))
+                \Illuminate\Support\Facades\Session::flush();
 
         } catch (\Exception $e) {
 
             \dd($e->getMessage());
 
         }
-
-        //destroy session data for test usage
-        //\Illuminate\Support\Facades\Session::flush();
 
         return \view('session.session-home',$data);
 
@@ -74,10 +72,15 @@ class SessionController extends Controller
             ->where('session_id',$session->id)
             ->count('participant_id');
 
+        $file = '';
+        $pdfView = false;
+        $base64Logo = '';
+
         if(\count($answers)>0){
 
+            $pdfView = true;
+
             $questions = $session->survey->questions;
-            //\dd($questions);
 
             $resultByQuestion = array();
 
@@ -89,8 +92,6 @@ class SessionController extends Controller
                 }
             }
 
-            //\dd($countParticipants);
-
             // get positive and negative comments
             $positiveAnswers = Answer::where('session_id',$session->id)
                 ->whereNotNull('comment')
@@ -99,7 +100,6 @@ class SessionController extends Controller
                 })
                 ->with(['participant','purpose'])
                 ->get();
-            //\dd($positiveAnswers);
 
             $negativeAnswers = Answer::where('session_id',$session->id)
                 ->whereNotNull('comment')
@@ -108,10 +108,7 @@ class SessionController extends Controller
                 })
                 ->with(['participant','purpose'])
                 ->get();
-            //\dd($negativeAnswers);
 
-            $file = '';
-            $pdfView = true;
 
             //convert logo to base64 in order to generate pdf
             $path = \asset('img/logo-adheos.png');
@@ -138,11 +135,10 @@ class SessionController extends Controller
                 \compact('session','questions','resultByQuestion','countParticipants',
                     'positiveAnswers','negativeAnswers','file','pdfView','base64Logo'));
 
-
         }
 
         return \view('session-result',
-            \compact('session','countParticipants'));
+            \compact('session','countParticipants','file','pdfView','base64Logo'));
 
 
     }
@@ -313,10 +309,11 @@ class SessionController extends Controller
             'contact' => 'string|max:100|nullable',
         ]);
 
-        //\dd($validated);
+
 
         //create school if not exists
-        if(!isset($validated->school_id)){
+        if(!isset($validated['school_id'])){
+
             $school = School::factory()
                 ->create([
                     'name' => $validated['name'],
@@ -325,7 +322,7 @@ class SessionController extends Controller
                     'contact' => $validated['contact'],
                 ]);
         }else{
-            $school = \App\Models\School::find($request->id);
+            $school = \App\Models\School::find($validated['school_id']);
         }
 
         //dd($school);

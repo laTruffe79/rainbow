@@ -19,6 +19,7 @@
 
     @livewireStyles
 
+
 </head>
 <body class="antialiased">
 
@@ -53,26 +54,26 @@
             <h2 class="text-gray-200 text-left text-lg mb-5">
                 {{$session->title}} <br>
                 <span class="inline-flex">
-                  @svg('icon-fontawesome.svgs.solid.school','h-6 w-6 fill-current text-gray-200 mr-2 inline-block')
-                    {{$session->school->name}}
+                  @svg('icon-fontawesome.svgs.solid.school','h-4 w-4 fill-current text-gray-200 mr-2 inline-block')
+                    {!! $pdfView ? 'Établissement : ' : '' !!} {{$session->school->name}}
                 </span>
                 <br>
                 @if(isset($session->school->contact))
                     <span class="text-sm italic inline-flex items-center">
                         @svg('icon-fontawesome.svgs.regular.user','h-4 w-4 fill-current text-gray-200 mr-2 inline-block')
-                        Contact : {{$session->school->contact}}
+                        Contact établissement : {{$session->school->contact}}
                     </span>
                     <br>
                 @endif
 
                 <span class="text-sm italic inline-flex">
                 @svg('icon-fontawesome.svgs.solid.chalkboard-user','h-4 w-4 fill-current text-gray-200 mr-2 inline-block')
-                    {{ucfirst($session->animator->name)}}
+                    {!! $pdfView ? 'Formateur : ' : '' !!}{{ucfirst($session->animator->name)}}
                 </span>
                 <br>
                 <span class="text-sm italic inline-flex items-center">
                 @svg('icon-fontawesome.svgs.regular.calendar-days','h-4 w-4 fill-current text-gray-200 mr-2 inline-block')
-                    {{ucfirst($session->created_at->format('d M Y'))}}
+                    {!! $pdfView ? 'Date : ' : '' !!}{{ucfirst($session->created_at->format('d M Y'))}}
                 </span>
                 <br>
                 <span class="text-sm italic inline-flex items-center">
@@ -161,18 +162,12 @@
                 <h2 class="text-gray-200">Pas encore de résultats disponibles pour cette session</h2>
             @endif
 
-
-
-
-
         </div>
 
         @if(!$pdfView)
-            <div class="flex justify-center mt-4 sm:items-center sm:justify-between">
-                <div class="ml-4 text-center text-sm text-gray-500 sm:text-right sm:ml-0">
-                    Laravel v{{ Illuminate\Foundation\Application::VERSION }} (PHP v{{ PHP_VERSION }})
-                </div>
-            </div>
+
+            @include('footer')
+
         @else
             <hr style="margin-top: 20px;margin-bottom: 20px">
             <div style="text-align: center">
@@ -197,13 +192,21 @@
 <script type="text/javascript">
     window.onload = function() {
         Livewire.on('alert-remove', () => {
-            setTimeout(function(){
-                document.querySelector('.success').remove();
-            },3000);
 
             setTimeout(function(){
-                //document.querySelector('.error').remove();
-            },3000);
+                if(document.querySelector('.success')){
+                    setTimeout(function(){
+                        document.querySelector('.success').remove();
+                    },3000);
+                }
+            },200);
+
+
+            if(document.querySelector('.error')) {
+                setTimeout(function () {
+                    document.querySelector('.error').remove();
+                }, 30000);
+            }
         })
     }
 </script>

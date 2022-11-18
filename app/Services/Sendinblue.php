@@ -19,7 +19,7 @@ class Sendinblue
      * @return void
      * @throws ApiException
      */
-    public static function send(int $templateId,array $to,object $params,string $attachmentContent = null): void
+    public static function send(int $templateId,array $to,object $params,string $attachmentContent = null, string $attachmentFilename): void
     {
         $config = Configuration::getDefaultConfiguration()->setApiKey('api-key', ENV('SENDINBLUE'));
         $apiInstance = new \SendinBlue\Client\Api\TransactionalEmailsApi(
@@ -34,7 +34,7 @@ class Sendinblue
         $sendSmtpEmail["params"] = $params;
         if($attachmentContent !== null){
             //$attachment = new SendSmtpEmailAttachment();
-            $attachment['name'] = "rapport.pdf";
+            $attachment['name'] = $attachmentFilename;
             $attachment['content'] = $attachmentContent;
             //$attachmentParams = array("content" => $attachmentContent, "name" => "rapport.pdf");
             $sendSmtpEmail["attachment"] = array($attachment);

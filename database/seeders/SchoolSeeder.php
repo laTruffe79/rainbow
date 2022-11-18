@@ -26,7 +26,7 @@ class SchoolSeeder extends Seeder
             ]);
         School::factory()
             ->create([
-                'name' => 'Collège Henri Martineau - 79160 Coulonges sur l\Autize',
+                'name' => 'Collège Henri Martineau - 79160 Coulonges sur l\'Autize',
                 'phone' => '0549061110',
                 'email' => 'ce.0790016n@ac-poitiers.fr',
                 'contact' => 'Principal établissement',
