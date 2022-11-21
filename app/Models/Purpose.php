@@ -21,7 +21,28 @@ class Purpose extends Model
         'icon-fontawesome.svgs.regular.face-meh',
         'icon-fontawesome.svgs.regular.face-frown'
     ];
-    const STANDARD_PURPOSES  = ['Très satisfait(e)', 'Satisfait(e)','Peu satisfait(e)','Insatisfait(e)'];
+    const STANDARD_PURPOSES  =
+        [
+            'Très satisfait(e)',
+            'Satisfait(e)',
+            'Peu satisfait(e)',
+            'Insatisfait(e)',
+        ];
+
+    const STANDARD_PURPOSES2  =
+        [
+            'Très utile',
+            'Utile',
+            'Peu utile',
+            'Inutile',
+        ];
+
+    const STANDARD_PURPOSES3  =
+        [
+            'Oui',
+            'Non',
+        ];
+
 
 
     /**

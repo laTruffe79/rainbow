@@ -10,9 +10,12 @@ class OpenCloseSession extends Component
     public $session;
     public $open;
 
-    public function mount()
+    public function mount($session)
     {
-        $this->open = $this->session->open === 1 ? true : false;
+
+        $this->session = \App\Models\Session::findOrfail($session);
+        //dd($this->session);
+        $this->open = $this->session->open === 1;
     }
 
     public function updatedOpen()

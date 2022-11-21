@@ -23,6 +23,14 @@ class Question extends Model
         'Êtes vous satisfait(e) des vidéos ?'
     ];
 
+    const QUESTIONS_ARRAY2 = [
+        'J\'ai trouvé ce type d\'intervention utile ? ',
+    ];
+
+    const QUESTIONS_ARRAY3 = [
+        'J\'ai un commentaire complémentaire à faire :',
+    ];
+
     protected $guarded = [];
 
     public static function newFactory(): QuestionFactory

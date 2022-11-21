@@ -37,5 +37,32 @@ class QuestionSeeder extends Seeder
 
         }
 
+        Question::factory()
+            ->has(Purpose::factory()->sequence([
+                'label' => Purpose::STANDARD_PURPOSES2[0] , 'icon' => Purpose::SMILEYS[0] , 'satisfied' => true
+            ]))
+            ->has(Purpose::factory()->sequence([
+                'label' => Purpose::STANDARD_PURPOSES2[1] , 'icon' => Purpose::SMILEYS[1] , 'satisfied' => true
+            ]))
+            ->has(Purpose::factory()->sequence([
+                'label' => Purpose::STANDARD_PURPOSES2[2] , 'icon' => Purpose::SMILEYS[2] , 'satisfied' => false
+            ]))
+            ->has(Purpose::factory()->sequence([
+                'label' => Purpose::STANDARD_PURPOSES2[3] , 'icon' => Purpose::SMILEYS[3] , 'satisfied' => false
+            ]))
+            ->create(['question' => Question::QUESTIONS_ARRAY2[0], 'image' => Question::IMAGES_ARRAY[0] ]);
+
+
+        Question::factory()
+            ->has(Purpose::factory()->sequence([
+                'label' => Purpose::STANDARD_PURPOSES3[0] , 'icon' => Purpose::SMILEYS[0] , 'satisfied' => true
+            ]))
+            ->has(Purpose::factory()->sequence([
+                'label' => Purpose::STANDARD_PURPOSES3[1] , 'icon' => Purpose::SMILEYS[3] , 'satisfied' => false
+            ]))
+            ->create(['question' => Question::QUESTIONS_ARRAY3[0], 'image' => Question::IMAGES_ARRAY[0] ]);
+
+
     }
+
 }

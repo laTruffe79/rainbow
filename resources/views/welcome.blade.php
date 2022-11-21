@@ -58,7 +58,7 @@
             @foreach($sessions as $key => $session)
                 {{--Item--}}
                 <div class="flex w-full h-auto p-5">
-                    <div class="w-12">
+                    <div class="w-12 mr-2">
                         <a title="Afficher le QR Code"
                            x-on:click.prevent="$dispatch('modal',{value:'{{$session->qrcode}}'})"
                            href="" data-bs-toggle="modal" data-bs-target="#exampleModal">
@@ -69,7 +69,7 @@
                     <div class="w-auto">
                         <a href="#" class=" leading-7 font-bold underline text-gray-200">
                             {{$session->created_at->format('d-m-Y')}}
-                            {{$session->school->name}} -
+                            {{$session->school->name}} - {{ $session->title }}<br>
                             <span class="italic">{{$session->animator->name}}</span>
                         </a>
                     </div>
@@ -79,7 +79,7 @@
                             </span>
                     </div>
                     <div class="w-auto">
-                        @livewire('open-close-session',['session' => $session])
+                        @livewire('open-close-session',['session' => $session->id])
                     </div>
                     <div class="w-auto px-6 text-fuchsia-600">
                         <a title="Résultats" href="{{route('session.show-result',['slug'=>$session->slug])}}">
