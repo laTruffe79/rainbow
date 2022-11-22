@@ -21,6 +21,9 @@ Route::get('/admin/home', [HomeController::class,'index'])->name('adminHome');
 Route::get('admin/session/result/{slug}',[SessionController::class,'showResult'])->name('session.show-result');
 Route::get('admin/session/create',[SessionController::class, 'create'])->name('session.create');
 Route::post('admin/session/store',[SessionController::class,'store'])->name('session.store');
+Route::get('admin/session/archive/{session}',[SessionController::class,'archive'])->name('session.archive');
+Route::get('admin/session/list-archive/',[SessionController::class,'listArchives'])->name('session.list-archives');
+Route::get('admin/session/restore/{session}',[SessionController::class, 'restoreSession'])->name('session.restore');
 
 /* protected routes against not opened sessions */
 Route::middleware(['session.is.open'])->group(function (){

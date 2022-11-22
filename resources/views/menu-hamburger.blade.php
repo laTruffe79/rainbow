@@ -10,7 +10,7 @@
          x-cloak
         class="absolute top-4 right-0 text-fuchsia-500 blue-tile-app border border-gray-200 rounded-lg
         px-4 py-4 float-right z-50 space-y-1.5">
-        <a class="block text-xl hover:text-fuchsia-300" href="#">Menu item 1</a>
+        <a class="block text-xl hover:text-fuchsia-300" href="{{route('session.list-archives')}}">Archives</a>
         <a class="block text-xl hover:text-fuchsia-300" href="#">Menu item 2</a>
         <a class="block text-xl hover:text-fuchsia-300" href="#">Menu item 3</a>
         <a class="block text-xl hover:text-fuchsia-300" href="#">Menu item 4</a>

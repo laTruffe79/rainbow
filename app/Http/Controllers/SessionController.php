@@ -9,6 +9,7 @@ use App\Models\School;
 use App\Models\Session;
 use App\Models\Survey;
 use Barryvdh\DomPDF\Facade\Pdf;
+use Exception;
 use Illuminate\Contracts\Foundation\Application;
 use Illuminate\Contracts\View\Factory;
 use Illuminate\Contracts\View\View;
@@ -98,7 +99,7 @@ class SessionController extends Controller
                 ->whereHas('purpose', function($q){
                     return $q->where('satisfied',1);
                 })
-                ->with(['participant','purpose'])
+                ->with(['participant','purpose','question'])
                 ->get();
 
             $negativeAnswers = Answer::where('session_id',$session->id)
@@ -106,7 +107,7 @@ class SessionController extends Controller
                 ->whereHas('purpose', function($q){
                     return $q->where('satisfied',0);
                 })
-                ->with(['participant','purpose'])
+                ->with(['participant','purpose','question'=>function($q){ $q->orderBy('id'); }])
                 ->get();
 
 
@@ -345,7 +346,7 @@ class SessionController extends Controller
     /**
      * Display the specified resource.
      *
-     * @param  \App\Models\Session  $session
+     * @param Session $session
      * @return \Illuminate\Http\Response
      */
     public function show(Session $session)
@@ -356,7 +357,7 @@ class SessionController extends Controller
     /**
      * Show the form for editing the specified resource.
      *
-     * @param  \App\Models\Session  $session
+     * @param Session $session
      * @return \Illuminate\Http\Response
      */
     public function edit(Session $session)
@@ -368,7 +369,7 @@ class SessionController extends Controller
      * Update the specified resource in storage.
      *
      * @param Request $request
-     * @param  \App\Models\Session  $session
+     * @param Session $session
      * @return \Illuminate\Http\Response
      */
     public function update(Request $request, Session $session)
@@ -379,12 +380,75 @@ class SessionController extends Controller
     /**
      * Remove the specified resource from storage.
      *
-     * @param  \App\Models\Session  $session
+     * @param Session $session
      * @return \Illuminate\Http\Response
      */
     public function destroy(Session $session)
     {
         //
+    }
+
+    /**
+     * @param Session $session
+     * @return View
+     */
+    public function archive(Session $session):View
+    {
+        try {
+
+            //@todo set open property to false before soft delete
+            $session->open = false;
+            $session->update();
+            $session->delete();
+
+            $sessions = Session::orderBy('id','desc')->with(['school','animator'])->paginate(10);
+            $data = compact('sessions');
+            return view('welcome', $data);
+        }
+        catch(Exception $exception){
+            \dd($exception);
+        }
+    }
+
+    /**
+     * List archived sessions
+     * @return View
+     */
+    public function listArchives():View
+    {
+        $sessions = Session::onlyTrashed()
+            ->orderBy('id','desc')
+            ->with(['school','animator'])
+            ->get();
+
+        //\dd($sessions);
+
+        $data = compact('sessions');
+        return view('session.list-archives', $data);
+
+    }
+
+
+    /**
+     * Restore one session then refresh list archives
+     * @param int $session
+     * @return View
+     */
+    public function restoreSession(int $session)
+    {
+
+        try {
+
+            $trashedSession = Session::onlyTrashed()->find($session);
+            $trashedSession->restore();
+            return $this->listArchives();
+
+        }catch(Exception $exception){
+
+            \dd($exception->getMessage());
+
+        }
+
     }
 
 
@@ -401,7 +465,6 @@ class SessionController extends Controller
         }catch(\Exception $exception){
             \dd($exception->getMessage());
         }
-
 
     }
 }
