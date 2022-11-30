@@ -21,6 +21,7 @@ class SchoolSeeder extends Seeder
             ->create([
                 'name' => 'Collège Fontanes - 79000 Niort',
                 'phone' => '0549773200',
+                'postal_code' => '79000',
                 'email' => 'ce.0790709s@ac-poitiers.fr',
                 'contact' => 'Infirmière scolaire',
             ]);
@@ -28,6 +29,7 @@ class SchoolSeeder extends Seeder
             ->create([
                 'name' => 'Collège Henri Martineau - 79160 Coulonges sur l\'Autize',
                 'phone' => '0549061110',
+                'postal_code' => '79160',
                 'email' => 'ce.0790016n@ac-poitiers.fr',
                 'contact' => 'Principal établissement',
             ]);

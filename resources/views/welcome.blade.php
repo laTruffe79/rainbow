@@ -12,6 +12,9 @@
 </head>
 <body class="antialiased">
 
+{{-- Overlay --}}
+<x-overlay />
+
 {{--Modal QR Code--}}
 {{--<div x-cloak
      x-show="show"
@@ -49,7 +52,7 @@
 
 <div
     class="relative flex items-top justify-center min-h-screen blue-bg-app dark:blue-bg-app
-    sm:items-center py-4 sm:pt-0">
+    sm:items-center sm:pt-0">
 
     <div class="w-5/6 mx-auto sm:px-6 lg:px-8 relative">
 
@@ -62,7 +65,7 @@
                 <x-custom-btn href="{{route('session.create')}}" text="Créer une session"></x-custom-btn>
             </div>
             <div class="h-auto flex flex-col justify-center">
-                @include('menu-hamburger')
+                <x-menu />
             </div>
         </div>
 

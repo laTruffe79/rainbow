@@ -299,18 +299,22 @@ class SessionController extends Controller
      */
     public function store(Request $request): RedirectResponse
     {
+
+        //\dd($request);
+
         // validation
         $validated = $request->validate([
             'title' => 'required|regex:/^[a-zA-Zéèàçôïâ0-9\'\.,\- ]{1,50}$/i|max:50',
             'school_id' => 'integer|nullable',
             'animator_id' => 'integer|required',
             'name' => 'required_without:school_id|regex:/^[a-zA-Zéèàçôïâ0-9\'\.,\- ]{1,50}$/i|max:50',
-            'phone' => 'required_without:school_id|digits:10|nullable',
+            'phone' => 'digits:10|nullable',
+            'postal_code' => 'required_without:school_id|digits:5',
             'email' => 'required_without:school_id|email|nullable',
             'contact' => 'string|max:100|nullable',
         ]);
 
-
+        //dd($validated);
 
         //create school if not exists
         if(!isset($validated['school_id'])){
@@ -319,6 +323,7 @@ class SessionController extends Controller
                 ->create([
                     'name' => $validated['name'],
                     'phone' => $validated['phone'],
+                    'postal_code' => $validated['postal_code'],
                     'email' => $validated['email'],
                     'contact' => $validated['contact'],
                 ]);

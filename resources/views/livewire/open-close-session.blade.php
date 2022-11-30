@@ -5,7 +5,7 @@
 
         </span>
     </div>
-    <div class="text-right w-20">
+    <div class="text-right w-auto">
         <label for="default-toggle-{{$session->id}}" class="inline-flex relative items-center cursor-pointer">
             <input type="checkbox"
                    x-on:change="toggle=!toggle;$dispatch('enable-disable-{{$session->id}}',{'toggle':toggle})"

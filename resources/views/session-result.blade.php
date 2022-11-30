@@ -36,7 +36,7 @@
 
 
 </head>
-<body class="antialiased">
+<body class="antialiased overflow-y-auto">
 
 <div
     class="relative flex items-top justify-center min-h-screen blue-bg-app dark:blue-bg-app sm:items-center py-4 sm:pt-0">

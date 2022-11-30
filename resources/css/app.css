@@ -33,5 +33,8 @@ body{
 .violet-icons{
     background-color: #767DB6;
 }
+.bg-hover-card{
+    background-color: #364084;
+}
 
 [x-cloak] { display: none !important; }

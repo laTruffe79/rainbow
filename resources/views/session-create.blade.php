@@ -13,10 +13,16 @@
 <body class="antialiased">
 
 <div
-    x-data="{sessionTitle:null,selectedSchoolId:'',animatorId:null,schoolName:null ,validSubmit:false,
+    x-data="{
+        sessionTitle:null,
+        selectedSchoolId:'',
+        animatorId:null,
+        schoolName:null,
+        postalCode:null,
+        validSubmit:false,
     validate(){
         if( !this.animatorId || !this.sessionTitle){ return false }
-        if( !this.selectedSchoolId && !this.schoolName){ return false }
+        if( !this.selectedSchoolId && (!this.schoolName || !this.postalCode) ){ return false }
         return true;
     }}"
     class="relative flex items-top justify-center min-h-screen blue-bg-app dark:blue-bg-app sm:items-center py-4 sm:pt-0">
@@ -125,6 +131,27 @@
                             name="name"
                             placeholder="* Nom de l'établissement"
                             pattern="^[a-zA-Zéèàçôïâ0-9'\.,\- ]{1,50}$"
+                        />
+                    </div>
+                </div>
+
+                {{--school postal code --}}
+                <div class="flex justify-start mt-8">
+                    <div class="mb-3 w-full">
+                        <input
+                            x-bind:disabled="selectedSchoolId !== ''"
+                            x-model="postalCode"
+                            type="text"
+                            class="form-control w-full
+                                block w-full py-2 text-lg font-normal text-gray-700
+                                bg-gray-200 bg-clip-padding border border-solid border-gray-300
+                                rounded-lg transition ease-in-out focus:text-gray-700 focus:bg-white"
+                            id="postal_code"
+                            name="postal_code"
+                            required
+                            style="padding-left: 6px;"
+                            pattern="^[0-9]{5}$"
+                            placeholder="*Code postal format 79000"
                         />
                     </div>
                 </div>

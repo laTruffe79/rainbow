@@ -6,11 +6,12 @@ use Database\Factories\AnswerFactory;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Database\Eloquent\SoftDeletes;
 
 
 class Answer extends Model
 {
-    use HasFactory;
+    use HasFactory, SoftDeletes;
 
     protected $guarded = [];
 
@@ -29,6 +30,7 @@ class Answer extends Model
     {
         return $this->belongsTo(Session::class);
     }
+
 
     /**
      * @return BelongsTo

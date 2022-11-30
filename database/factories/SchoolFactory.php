@@ -27,6 +27,7 @@ class SchoolFactory extends Factory
         return [
             'name' => 'Collège '.$this->faker->firstName.' '.$this->faker->lastName.' de '.$this->faker->city,
             'phone' => '0'.$this->faker->numerify('#########'),
+            'postal_code' => $this->faker->postcode(),
             'email' => $this->faker->email,
             'contact' => $this->faker->jobTitle,
             'created_at' => now(),
