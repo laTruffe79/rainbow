@@ -21,8 +21,6 @@ class SurveyController extends Controller
     {
         $surveys = Survey::with(['sessions','sessions.answers','questions','questions.purposes'])->withTrashed()->get();
 
-        //\dd($surveys[0]->sessions);
-
         $data = \compact('surveys');
         return view( 'survey.index',$data);
     }
