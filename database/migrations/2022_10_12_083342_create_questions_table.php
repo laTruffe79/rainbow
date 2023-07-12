@@ -16,6 +16,7 @@ return new class extends Migration
         Schema::create('questions',function (Blueprint $table){
             $table->id()->autoIncrement();
             $table->text('question');
+            $table->text('purpose_type',50);
             $table->string('image',200);
             $table->timestamps();
             $table->softDeletes();

@@ -57,10 +57,10 @@
                 <button
                     x-bind:class="selectedPurposeId=='{{ $purpose->id }}' ? 'violet-icons' : 'blue-btn-default'"
                     x-on:click.prevent="selectedPurposeId='{{ $purpose->id }}'"
-                    class=" grow text-center py-2 px-2 rounded text-gray-200 flex justify-center items-center
+                    class=" grow text-center py-2 px-2 rounded text-gray-200 flex flex-col justify-center items-center
                     border-fuchsia-500 text-sm">
-                    @svg($purpose->icon,"w-4 h-4 fill-current text-gray-200")
-                    <span class="pl-2">{{$purpose->label}}</span>
+                    @svg($purpose->icon,"w-8 h-8 fill-current text-gray-200 mb-2")
+                    <span>{{$purpose->label}}</span>
                 </button>
             @endforeach
             <input type="hidden" name="purpose_id" id="purpose_id" x-model="selectedPurposeId">
@@ -70,7 +70,7 @@
                   style="padding: 5px;"
                   rows="6"
                   name="comment"
-                  placeholder="Un petit commentaire ?"></textarea>
+                  placeholder="Pourquoi ce choix ?"></textarea>
         <div class="w-full text-center text-gray-200 my-4">
             <button
                 x-bind:disabled="selectedPurposeId==null"

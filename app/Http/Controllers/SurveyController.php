@@ -5,8 +5,6 @@ namespace App\Http\Controllers;
 use App\Models\Question;
 use App\Models\Session;
 use App\Models\Survey;
-use Illuminate\Contracts\Foundation\Application;
-use Illuminate\Contracts\View\Factory;
 use Illuminate\Contracts\View\View;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
@@ -15,10 +13,18 @@ use function view;
 class SurveyController extends Controller
 {
 
-
-    public function index()
+    /**
+     * return the index view with the list of the surveys
+     * @return View
+     */
+    public function index(): View
     {
+        $surveys = Survey::with(['sessions','sessions.answers','questions','questions.purposes'])->withTrashed()->get();
 
+        //\dd($surveys[0]->sessions);
+
+        $data = \compact('surveys');
+        return view( 'survey.index',$data);
     }
 
     /**

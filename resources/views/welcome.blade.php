@@ -16,19 +16,6 @@
 <x-overlay />
 
 {{--Modal QR Code--}}
-{{--<div x-cloak
-     x-show="show"
-     x-data="{show:false,qrCodeData:null}"
-
-     @modal.window="qrCodeData=$event.detail.value;show=!show"
-     style="position: fixed; top: 50%; left: 50%; transform: translate(-50%, -50%); z-index: 10; margin: auto; width: 600px ; height: 600px; overflow: auto;"
-     class="justify-center items-center bg-gray-200">
-
-    <div @click.outside="show=false" class="z-50 mx-auto text-center bg-transparent w-full">
-        <img x-bind:src="qrCodeData" src="" alt="" height="600px" width="600px"/>
-    </div>
-
-</div>--}}
 @foreach($sessions as $key => $session)
     <div x-cloak
          x-ref="modal-{{$session->id}}"
@@ -44,7 +31,6 @@
         <div @click.outside="show=false" class="z-50 mx-auto text-center bg-transparent w-full">
             <img src="{{$session->qrcode}}" alt="" height="600px" width="600px"/>
         </div>
-
     </div>
 @endforeach
 

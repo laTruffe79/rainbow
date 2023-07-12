@@ -10,7 +10,7 @@ body{
 .blue-bg-app{
   background-color: #1B214E;
 }
-    .blue-card-app{
+.blue-card-app{
     background-color: #2A3165;
 }
 .blue-btn-default{
@@ -21,6 +21,9 @@ body{
 }
 .blue-tile-app{
     background-color: #2A3165;
+}
+.gradient-custom-linear-blue {
+    background-image: linear-gradient( rgba(26, 33, 78, 1), rgba(26, 33, 78, 0.3));
 }
 
 /*custom btn backgrounds colors*/

@@ -57,8 +57,8 @@
                      class="h-auto flex flex-col justify-center text-right">
                     <div class="">
                         <a href=""
-                            x-on:click.prevent="confirm('Êtes-vous sûr ?') ? window.location.href = '{{route('session.archive',['session' => $session->id])}}' : ''"
-                            class="px-8 text-gray-200 py-4 rounded-lg bg-gradient-to-r
+                           x-on:click.prevent="confirm('Êtes-vous sûr ?') ? window.location.href = '{{route('session.archive',['session' => $session->id])}}' : ''"
+                           class="px-8 text-gray-200 py-4 rounded-lg bg-gradient-to-r
    from-violet-900 to-fuchsia-600 hover:bg-fuchsia-600 font-bold hover:from-fuchsia-600 hover:to-fuchsia-600 ">
                             Archiver
                         </a>
@@ -76,65 +76,157 @@
                 </div>
             @endif
 
-            <div class="text-center pt-4 mb-5">
-                <h1 class="text-gray-200 font-bold text-2xl">Synthèse d'évaluation de la session </h1>
+            <div class="text-center my-10">
+                <h1 class="text-gray-200 font-bold text-3xl">Bilan de la session </h1>
             </div>
 
-            <h2 class="text-gray-200 text-left text-lg mb-5">
-                {{$session->title}} <br>
-                <span class="inline-flex">
-                  @svg('icon-fontawesome.svgs.solid.school','h-4 w-4 fill-current text-gray-200 mr-2 inline-block')
-                    {!! $pdfView ? 'Établissement : ' : '' !!} {{$session->school->name}}
-                </span>
-                <br>
-                @if(isset($session->school->contact))
-                    <span class="text-sm italic inline-flex items-center">
-                        @svg('icon-fontawesome.svgs.regular.user','h-4 w-4 fill-current text-gray-200 mr-2 inline-block')
-                        Contact établissement : {{$session->school->contact}}
+            <div class="grid grid-cols-3 gap-8 text-gray-200 mb-5 text-xl">
+
+                <div class="gradient-custom-linear-blue gradient-custom-linear-blue shadow-xl shadow-blue-950
+                     px-10 py-6 rounded-lg flex items-center place-content-center">
+                    @svg('icon-fontawesome.svgs.solid.school','h-8 w-8 fill-current text-gray-200 mr-4 ')
+                    <span class="inline align-text-bottom">
+                        {!! $pdfView ? 'Établissement : ' : '' !!} {{$session->school->name}}
+                        </span>
+                </div>
+
+                <div class="gradient-custom-linear-blue gradient-custom-linear-blue shadow-xl shadow-blue-950
+                     px-10 py-6 rounded-lg flex items-center place-content-center">
+                    @svg('icon-fontawesome.svgs.solid.user-group','h-8 w-8 fill-current text-gray-200 mr-4')
+                    <span class="inline-flex items-center">
+                            {{$session->title}}
+                        </span>
+                </div>
+
+                <div
+                    class="gradient-custom-linear-blue gradient-custom-linear-blue shadow-xl shadow-blue-950
+                     px-10 py-6 rounded-lg flex items-center place-content-center">
+                    @if(isset($session->school->contact))
+                        @svg('icon-fontawesome.svgs.solid.user-check','h-8 w-8 fill-current text-gray-200 mr-4')
+                        <span class="inline-flex items-center">
+                                Contact : {{$session->school->contact}}
+                            </span>
+                    @endif
+                </div>
+
+                <div class="gradient-custom-linear-blue gradient-custom-linear-blue shadow-xl shadow-blue-950
+                     px-10 py-6 rounded-lg flex items-center place-content-center">
+
+                    @svg('icon-fontawesome.svgs.solid.chalkboard-user','h-8 w-8 fill-current text-gray-200 mr-4 ')
+                    <span class="inline-flex items-center">
+                            {!! $pdfView ? 'Formateur : ' : '' !!}{{ucfirst($session->animator->name)}}
+                        </span>
+
+                </div>
+
+                <div
+                    class="gradient-custom-linear-blue gradient-custom-linear-blue shadow-xl shadow-blue-950
+                     px-10 py-6 rounded-lg flex items-center place-content-center">
+                    @svg('icon-fontawesome.svgs.regular.calendar-days','h-8 w-8 fill-current text-gray-200 mr-4')
+                    <span class=" inline-flex items-center">
+                        {!! $pdfView ? 'Date : ' : '' !!}{{ucfirst($session->created_at->format('d M Y'))}}
                     </span>
-                    <br>
-                @endif
 
-                <span class="text-sm italic inline-flex">
-                @svg('icon-fontawesome.svgs.solid.chalkboard-user','h-4 w-4 fill-current text-gray-200 mr-2 inline-block')
-                    {!! $pdfView ? 'Formateur : ' : '' !!}{{ucfirst($session->animator->name)}}
-                </span>
-                <br>
-                <span class="text-sm italic inline-flex items-center">
-                @svg('icon-fontawesome.svgs.regular.calendar-days','h-4 w-4 fill-current text-gray-200 mr-2 inline-block')
-                    {!! $pdfView ? 'Date : ' : '' !!}{{ucfirst($session->created_at->format('d M Y'))}}
-                </span>
-                <br>
-                <span class="text-sm italic inline-flex items-center">
-                @svg('icon-fontawesome.svgs.regular.user','h-4 w-4 fill-current text-gray-200 mr-2 inline-block')
-                    {{$countParticipants}} participants
-                </span>
+                </div>
 
-            </h2>
-            <hr class="text-gray-200 mb-5">
+                <div
+                    class="gradient-custom-linear-blue shadow-xl shadow-blue-950 px-10 py-6 rounded-lg flex items-center place-content-center">
+                    @svg('icon-fontawesome.svgs.regular.user','h-8 w-8 fill-current text-gray-200 mr-4')
+                    <span class="inline-flex items-center">
+                        {{$countParticipants}} participants
+                    </span>
+                </div>
+
+            </div>
+
+            <hr class="text-gray-200 my-10">
+
+            <div class="text-center mb-10">
+                <h2 class="text-gray-200 font-bold text-2xl">Questions fermées</h2>
+            </div>
 
             @if(isset($resultByQuestion) && $resultByQuestion !== null)
                 @foreach($questions as $question)
-                    <div class="my-4">
-                        <h2 class="text-gray-200">{{$question->question}}</h2>
-                        <div class="grid grid-rows-1 grid-flow-col gap-4 mt-4">
+                    <div
+                        class="grid grid-cols-4 gap-3 rounded-lg my-6 text-xl gradient-custom-linear-blue flex items-center
+                        place-content-center shadow-xl shadow-blue-950
+                        hover:shadow-xl hover:drop-shadow-2xl hover:shadow-blue-900">
+                        <div class="col-span-1 p-5">
+                            <q class="text-gray-200">{{$question->question}}</q>
+                        </div>
+                        <div class="col-span-3 p-5">
+                            <div class="my-4">
 
-                            @if(round($resultByQuestion[$question->id]*100/$countParticipants,1) == 0)
-                                <div class="bg-transparent rounded-lg text-left"
-                                     style="width: auto">
-                                <span
-                                    class="px-6 text-gray-200">0%</span>
-                                </div>
-                            @else
-                                <div class="bg-gray-200 rounded-lg text-center"
-                                     style="width: {{ $resultByQuestion[$question->id]*100/$countParticipants  }}%; background-color:#BC26D1;
+                                <div class="grid grid-rows-1 grid-flow-col gap-4 mt-4 blue-card-app rounded-lg">
+
+                                    @if(round($resultByQuestion[$question->id]*100/$countParticipants,1) == 0)
+                                        <div class="blue-card-app rounded-lg text-left"
+                                             style="width: auto">
+                                            <span class="px-6 text-gray-200">0%</span>
+                                        </div>
+                                    @else
+                                        <div class="rounded-lg text-center"
+                                             style="width: {{ $resultByQuestion[$question->id]*100/$countParticipants  }}%; background-color:#BC26D1;
                                      {!! $pdfView ? 'text-align:center;color:#fff;border-radius: 30% 30% 30% 30%;': ''!!}"><span
-                                        class="px-6">{{round($resultByQuestion[$question->id]*100/$countParticipants,1)}} %</span>
-                                </div>
-                            @endif
+                                                class="px-6 text-gray-200">{{round($resultByQuestion[$question->id]*100/$countParticipants,1)}} %</span>
+                                        </div>
+                                    @endif
 
+                                </div>
+                            </div>
                         </div>
                     </div>
+                @endforeach
+
+                <hr class="text-gray-200 my-10">
+
+                <div class="text-center mb-10">
+                    <h2 class="text-gray-200 font-bold text-2xl">Questions ouvertes</h2>
+                </div>
+
+                @foreach($openQuestions as $k => $openQuestion)
+
+                    <div class="rounded-lg my-6 text-xl p-5 shadow-xl shadow-blue-950
+                        gradient-custom-linear-blue flex items-center place-content-center
+                        hover:shadow-xl hover:drop-shadow-2xl hover:shadow-blue-900">
+                        <q class="text-gray-200 text-xl">{{$openQuestion->question}}</q>
+                    </div>
+
+                    @foreach($openQuestion->purposesThroughAnswers->countBy('label') as $label => $countInGroup)
+                        <div
+                            class="grid grid-cols-5 auto-rows-min rounded-lg my-6 text-xl gradient-custom-linear-blue
+                            flex items-center place-content-center
+                            shadow-xl shadow-blue-950
+                            hover:shadow-xl hover:drop-shadow-2xl hover:shadow-blue-900">
+                            <div class="col-span-1 p-5">
+                                <h2 class="text-gray-200">{{ $label }}
+                                    : {{round($countInGroup*100/$openQuestion->answers_count,1)}} % </h2>
+                            </div>
+                            <div class="col-span-3 p-5">
+
+                                <div class="my-4">
+                                    <div class="blue-card-app rounded-lg grid grid-rows-1 grid-flow-col gap-4 mt-4">
+                                        {{--{{ $label }} : {{ $countInGroup }}/{{$openQuestion->answers_count}}--}}
+                                        @if(round($countInGroup*100/$openQuestion->answers_count,1) == 0)
+                                            <div class="bg-transparent rounded-lg text-left"
+                                                 style="width: 2%">
+                                                <span class="px-6 text-gray-200">0%</span>
+                                            </div>
+                                        @else
+                                            <div class="bg-gray-200 rounded-lg text-center"
+                                                 style="width: {{ round($countInGroup*100/$openQuestion->answers_count,1)  }}%; background-color:#BC26D1;
+                                     {!! $pdfView ? 'text-align:center;color:#fff;border-radius: 30% 30% 30% 30%;margin-bottom:15px;': ''!!}"><span
+                                                    class="px-6 text-gray-200"></span>
+                                            </div>
+                                        @endif
+
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                    @endforeach
+
                 @endforeach
 
                 @if(!$pdfView)
@@ -148,15 +240,35 @@
 
                     <hr class="text-gray-200 mt-6"/>
 
-                    <div x-data="{showPositiveAnswers:false}">
+                    <div class="rounded-lg blue-bg-app p-5 my-5 shadow-xl shadow-blue-950
+                    hover:shadow-xl hover:drop-shadow-2xl hover:shadow-blue-900"
+                         x-data="{showPositiveAnswers:false}">
                         <h2 title="Afficher/masquer les commentaire positifs"
                             x-on:click="showPositiveAnswers=!showPositiveAnswers"
-                            class="text-gray-200 text-xl my-4 cursor-pointer underline inline-flex">Commentaires parmi
-                            les réactions positives</h2>
-                        <ul x-show="showPositiveAnswers"
-                            x-transition:enter.duration.300ms
-                            x-transition:leave.duration.400ms
-                            class="text-gray-200">
+                            class="text-gray-200 text-xl cursor-pointer underline inline-flex">Commentaires parmi
+                            les réactions positives ({{count($positiveAnswers)}})</h2>
+
+                        <div x-show="showPositiveAnswers"
+                             x-transition:enter.duration.300ms
+                             x-transition:leave.duration.400ms
+                            class="grid grid-cols-3 bggra gap-8 text-gray-200 px-5 my-8">
+                            @foreach($positiveAnswers as $index => $positiveAnswer)
+
+                                <div class="text-justify pr-5">
+                                    <q>
+                                        {{$positiveAnswer->question->question}}
+                                    </q>
+                                </div>
+                                <div class="col-span-2 text-left italic">
+                                    De {{$positiveAnswer->participant->pseudo}} :
+                                    "{{$positiveAnswer->comment}}"
+                                </div>
+
+                            @endforeach
+
+                        </div>
+                        {{--<ul
+                            class="text-gray-200 mt-5">
                             @foreach($positiveAnswers as $positiveAnswer)
 
                                 <li class="mb-5">"{{$positiveAnswer->question->question}}"<br>
@@ -164,20 +276,22 @@
                                 </li>
 
                             @endforeach
-                        </ul>
+                        </ul>--}}
                     </div>
 
                     <hr class="text-gray-200"/>
-                    <div x-data="{showNegativeAnswers:false}">
+                    <div class="rounded-lg blue-bg-app p-5 my-5 shadow-xl shadow-blue-950
+                    hover:shadow-xl hover:drop-shadow-2xl hover:shadow-blue-900"
+                         x-data="{showNegativeAnswers:false}">
                         <h2 title="Afficher/masquer les commentaires négatifs"
                             x-on:click="showNegativeAnswers= !showNegativeAnswers"
-                            class="text-gray-200 text-xl my-4 cursor-pointer underline inline-flex">
-                            Commentaires parmi les réactions négatives
+                            class="text-gray-200 text-xl cursor-pointer underline inline-flex">
+                            Commentaires parmi les réactions négatives ({{count($negativeAnswers)}})
                         </h2>
                         <ul x-show="showNegativeAnswers"
                             x-transition:enter.duration.300ms
                             x-transition:leave.duration.400ms
-                            class="text-gray-200">
+                            class="text-gray-200 mt-5">
                             @foreach($negativeAnswers as $negativeAnswer)
 
                                 <li class="mb-5">"{{$negativeAnswer->question->question}}"<br>
@@ -187,7 +301,31 @@
                             @endforeach
                         </ul>
                     </div>
+
+                    <hr class="text-gray-200 my-5"/>
+                    <div class="rounded-lg blue-bg-app p-5 mb-5 shadow-xl shadow-blue-950
+                    hover:shadow-xl hover:drop-shadow-2xl hover:shadow-blue-900"
+                         x-data="{showOpenQuestionAnswers:false}">
+                        <h2 title="Afficher/masquer les commentaires des questions de ressentis"
+                            x-on:click="showOpenQuestionAnswers= !showOpenQuestionAnswers"
+                            class="text-gray-200 text-xl cursor-pointer underline inline-flex">
+                            Commentaires parmi les questions ouvertes ({{count($openQuestionsComments)}})
+                        </h2>
+                        <ul x-show="showOpenQuestionAnswers"
+                            x-transition:enter.duration.300ms
+                            x-transition:leave.duration.400ms
+                            class="text-gray-200 mt-5">
+                            @foreach($openQuestionsComments as $openQuestionsComment)
+
+                                <li class="mb-5">"{{$openQuestionsComment->question->question}}"<br>
+                                    <span class="italic">De {{$openQuestionsComment->participant->pseudo}} : "{{$openQuestionsComment->comment}}"</span>
+                                </li>
+
+                            @endforeach
+                        </ul>
+                    </div>
                 @endif
+
             @else
                 <h2 class="text-gray-200">Pas encore de résultats disponibles pour cette session</h2>
             @endif

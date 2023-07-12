@@ -7,6 +7,9 @@ module.exports = {
     ],
     theme: {
         extend: {
+            backgroundImage: (theme) => ({
+                'gradient-custom': `linear-gradient( rgba(26, 33, 78, 1), rgba(26, 33, 78, 0.3))`,
+            }),
         },
         screens: {
             'sm': {'min': '640px', 'max': '767px'},

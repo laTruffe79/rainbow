@@ -34,7 +34,8 @@ return new class extends Migration
                 $table->string('slug', 100);
                 $table->float('satisfaction_rate', 2, 1)->nullable();
                 $table->string('title',50);
-                $table->timestamps();
+                $table->timestamp('created_at')->useCurrent();
+                $table->timestamp('updated_at')->useCurrentOnUpdate();
                 $table->softDeletes();
             });
         } catch (Exception $e) {

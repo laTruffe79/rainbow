@@ -28,6 +28,9 @@
     AuthName "Password Protected"
     AuthType Basic
 
+    # custom 401 page
+    #ErrorDocument 401 /static/401.html
+
     # Setup a deny/allow
     Order Deny,Allow
     # Deny from everyone

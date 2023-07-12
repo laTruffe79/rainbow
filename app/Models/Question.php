@@ -7,6 +7,7 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Database\Eloquent\Relations\HasMany;
+use Illuminate\Database\Eloquent\Relations\HasManyThrough;
 use Illuminate\Database\Eloquent\SoftDeletes;
 
 
@@ -17,20 +18,18 @@ class Question extends Model
     const IMAGES_ARRAY = ['buddies','grandma','having_fun','inlove','pride','waiting'];
     const QUESTIONS_ARRAY = [
         'Êtes vous satisfait(e) du contenu de l\'intervention ?',
-        'Êtes vous satisfait(e) de la possibilité de prendre la parole ?',
-        'Vous vous sentiez à l\'aise pour parler du sujet ?',
+        'Vous vous sentiez à l\'aise pour prendre la parole ?',
         'Avez-vous appris quelque chose ?',
         'Êtes vous satisfait(e) de la compétence de l\'intervenant ?',
-        'Êtes vous satisfait(e) des vidéos ?'
-    ];
-
-    const QUESTIONS_ARRAY2 = [
-        'J\'ai trouvé ce type d\'intervention utile ? ',
     ];
 
     const QUESTIONS_ARRAY3 = [
-        'J\'ai un commentaire complémentaire à faire :',
+        'Cette intervention a-t-elle changé votre regard sur l\'homosexualité et la transidentité de façon positive ?',
     ];
+    const QUESTIONS_ARRAY2 = [
+        'À l\'issue de cette intervention, quel est votre ressenti ? ',
+    ];
+
 
     protected $guarded = [];
 
@@ -60,6 +59,14 @@ class Question extends Model
     public function surveys(): BelongsToMany
     {
         return $this->belongsToMany(Survey::class);
+    }
+
+    /**
+     * @return BelongsToMany
+     */
+    public function purposesThroughAnswers():BelongsToMany
+    {
+        return $this->belongsToMany(Purpose::class,'answers');
     }
 
 }

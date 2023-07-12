@@ -21,6 +21,8 @@ return new class extends Migration
                     ->references('id')
                     ->on('questions')
                     ->onDelete('cascade');
+                $table->string('key',50);
+                $table->tinyInteger('order');
                 $table->string('label')->nullable();
                 $table->string('icon',50)->nullable();
                 $table->boolean('satisfied');

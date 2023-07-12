@@ -25,8 +25,11 @@ class Menu extends Component
     public function render():View
     {
 
-        $menuItems = array('report.index' => 'Rapports',
-            'session.list-archives' => 'Archives');
+        $menuItems = array(
+            'survey.index' => 'Questionnaires',
+            'report.index' => 'Rapports',
+            'session.list-archives' => 'Archives',
+        );
 
         return view('components.menu',\compact('menuItems'));
     }

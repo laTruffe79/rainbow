@@ -66,6 +66,9 @@ class SessionController extends Controller
 
         $answers = \App\Models\Answer::with(['purpose'])
             ->where('session_id',$session->id)
+            ->whereHas('question',function($q){
+                $q->where('satisfiable',true);
+            })
             ->get();
         //\dd($answers);
 
@@ -81,7 +84,7 @@ class SessionController extends Controller
 
             $pdfView = true;
 
-            $questions = $session->survey->questions;
+            $questions = $session->survey->questions->where('satisfiable',true);
 
             $resultByQuestion = array();
 
@@ -92,6 +95,17 @@ class SessionController extends Controller
                     $resultByQuestion[$answer->question_id] += $answer->purpose->satisfied;
                 }
             }
+
+            $openQuestions = Question::withCount(['answers'])
+                ->with(['answers','purposesThroughAnswers'])
+
+                ->wherehas('answers',function($q)use ($session){
+                    $q->where('session_id',$session->id);
+                })
+                ->where('satisfiable',false)
+                ->get();
+
+            //dd($openQuestions);
 
             // get positive and negative comments
             $positiveAnswers = Answer::where('session_id',$session->id)
@@ -106,6 +120,14 @@ class SessionController extends Controller
                 ->whereNotNull('comment')
                 ->whereHas('purpose', function($q){
                     return $q->where('satisfied',0);
+                })
+                ->with(['participant','purpose','question'=>function($q){ $q->orderBy('id'); }])
+                ->get();
+
+            $openQuestionsComments = Answer::where('session_id',$session->id)
+                ->whereNotNull('comment')
+                ->whereHas('question', function($q){
+                    return $q->where('satisfiable',false);
                 })
                 ->with(['participant','purpose','question'=>function($q){ $q->orderBy('id'); }])
                 ->get();
@@ -126,7 +148,8 @@ class SessionController extends Controller
             // Export data to pdf
             $pdf = Pdf::loadView('session-result',
                 compact('session','questions','resultByQuestion','countParticipants',
-                    'positiveAnswers','negativeAnswers','file','pdfView','base64Logo'));
+                    'positiveAnswers','negativeAnswers','file','pdfView','base64Logo','openQuestions','openQuestionsComments'));
+
 
             $file = base64_encode($pdf->output([0]));
 
@@ -134,7 +157,7 @@ class SessionController extends Controller
 
             return \view('session-result',
                 \compact('session','questions','resultByQuestion','countParticipants',
-                    'positiveAnswers','negativeAnswers','file','pdfView','base64Logo'));
+                    'positiveAnswers','negativeAnswers','file','pdfView','base64Logo','openQuestions','openQuestionsComments'));
 
         }
 
