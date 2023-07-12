@@ -35,22 +35,28 @@ class EditQuestionComponent extends Component
 
         //get attached purposes to this survey
         $surveyId = $this->surveyId;
+        $questionId = $this->questionId;
         $purposes = Purpose::with(['question'])
-            ->whereHas('question.surveys',function (Builder $query) use ($surveyId){
-                $query->where('survey_id',$surveyId);
+            ->whereHas('question.surveys',function (Builder $query) use ($surveyId,$questionId){
+                $query->where('survey_id',$surveyId)->where('question_id',$questionId);
             })
+            ->orderBy('order')
             ->get();
 
         //get constant purposes
         $constantPurposes = (new Purpose())->getConstants();
 
+        //\dd($constantPurposes);
+
         //get constant array keys
         $constantPurposesArrayKeys = \array_keys($constantPurposes);
 
+
+
         //get attached purposes keys
-        $purposesArrayKeys = [];
+        $purposesArrayKeys[$this->questionId] = [];
         foreach ($purposes as $purpose){
-            $purposesArrayKeys[$purpose->question_id][] = $purpose->key;
+            $purposesArrayKeys[$this->questionId][] = $purpose->key;
         }
 
         $data = \compact('question','index','editable','purposes','constantPurposes',
@@ -61,17 +67,34 @@ class EditQuestionComponent extends Component
     /**
      * @param array $purpose
      * @param int $questionId
-     * @return void
+     * @return bool
      */
-    public function attachPurposeToQuestion(array $purpose,int $questionId):void
+    public function attachPurposeToQuestion(array $purpose,int $questionId): bool
     {
-        $purpose['question_id'] = $questionId;
-        Purpose::factory()->create($purpose);
 
+        try {
+            $purpose['question_id'] = $questionId;
+            Purpose::factory()->create($purpose);
+            return true;
+        } catch (\Exception $e) {
+
+        }
+        return false;
     }
 
-    public function detachPurposeToQuestion(int $purposeId)
+    /**
+     * @param int $purposeId
+     * @return bool
+     */
+    public function detachPurposeToQuestion(int $purposeId): bool
     {
-        return Purpose::find($purposeId)->delete();
+        try {
+            Purpose::find($purposeId)->delete();
+            /*$this->render();*/
+            return true;
+        }catch(\Exception $exception){
+
+        }
+        return false;
     }
 }

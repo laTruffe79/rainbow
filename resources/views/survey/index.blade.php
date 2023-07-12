@@ -7,7 +7,7 @@
     <link rel="icon" type="image/svg+xml" href="{{asset('favicon.svg')}}">
 
     <link rel="stylesheet" href="{{ mix('css/app.css') }}">
-    {{--@livewireStyles--}}
+    @livewireStyles
 
 </head>
 <body class="antialiased">
@@ -66,7 +66,7 @@
                                 </span>
 
                             </div>
-                            <div x-show="showQuestions" x-transition.duration.200ms class="text-gray-200 px-6">
+                            <div x-cloak x-show="showQuestions" x-transition.duration.200ms class="text-gray-200 px-6">
                                 <ul class="">
                                     @foreach($survey->questions as $index => $question)
 

@@ -23,24 +23,28 @@ class QuestionSeeder extends Seeder
             Question::factory()
                 ->has(Purpose::factory()->sequence([
                     'key' => array_keys(Purpose::STANDARD_PURPOSES_SATISFACTION)[0],
+                    'order' => Purpose::STANDARD_PURPOSES_SATISFACTION['most_satisfied']['order'] ,
                     'label' => Purpose::STANDARD_PURPOSES_SATISFACTION['most_satisfied']['label'] ,
                     'icon' => Purpose::STANDARD_PURPOSES_SATISFACTION['most_satisfied']['icon'] ,
                     'satisfied' => Purpose::STANDARD_PURPOSES_SATISFACTION['most_satisfied']['satisfied']
                 ]))
                 ->has(Purpose::factory()->sequence([
                     'key' => array_keys(Purpose::STANDARD_PURPOSES_SATISFACTION)[1],
+                    'order' => Purpose::STANDARD_PURPOSES_SATISFACTION['satisfied']['order'] ,
                     'label' => Purpose::STANDARD_PURPOSES_SATISFACTION['satisfied']['label'] ,
                     'icon' => Purpose::STANDARD_PURPOSES_SATISFACTION['satisfied']['icon'] ,
                     'satisfied' => Purpose::STANDARD_PURPOSES_SATISFACTION['satisfied']['satisfied']
                 ]))
                 ->has(Purpose::factory()->sequence([
                     'key' => array_keys(Purpose::STANDARD_PURPOSES_SATISFACTION)[2],
+                    'order' => Purpose::STANDARD_PURPOSES_SATISFACTION['not_satisfied']['order'] ,
                     'label' => Purpose::STANDARD_PURPOSES_SATISFACTION['not_satisfied']['label'] ,
                     'icon' => Purpose::STANDARD_PURPOSES_SATISFACTION['not_satisfied']['icon'] ,
                     'satisfied' => Purpose::STANDARD_PURPOSES_SATISFACTION['not_satisfied']['satisfied']
                 ]))
                 ->has(Purpose::factory()->sequence([
                     'key' => array_keys(Purpose::STANDARD_PURPOSES_SATISFACTION)[3],
+                    'order' => Purpose::STANDARD_PURPOSES_SATISFACTION['angry']['order'] ,
                     'label' => Purpose::STANDARD_PURPOSES_SATISFACTION['angry']['label'] ,
                     'icon' => Purpose::STANDARD_PURPOSES_SATISFACTION['angry']['icon'] ,
                     'satisfied' => Purpose::STANDARD_PURPOSES_SATISFACTION['angry']['satisfied']
@@ -55,24 +59,28 @@ class QuestionSeeder extends Seeder
         Question::factory()
             ->has(Purpose::factory()->sequence([
                 'key' => array_keys(Purpose::STANDARD_PURPOSES_CHANGED_MIND)[0],
+                'order' => Purpose::STANDARD_PURPOSES_CHANGED_MIND['yes_really']['order'] ,
                 'label' => Purpose::STANDARD_PURPOSES_CHANGED_MIND['yes_really']['label'] ,
                 'icon' => Purpose::STANDARD_PURPOSES_CHANGED_MIND['yes_really']['icon'] ,
                 'satisfied' => Purpose::STANDARD_PURPOSES_CHANGED_MIND['yes_really']['satisfied']
             ]))
             ->has(Purpose::factory()->sequence([
                 'key' => array_keys(Purpose::STANDARD_PURPOSES_CHANGED_MIND)[1],
+                'order' => Purpose::STANDARD_PURPOSES_CHANGED_MIND['a_few']['order'] ,
                 'label' => Purpose::STANDARD_PURPOSES_CHANGED_MIND['a_few']['label'] ,
                 'icon' => Purpose::STANDARD_PURPOSES_CHANGED_MIND['a_few']['icon'] ,
                 'satisfied' => Purpose::STANDARD_PURPOSES_CHANGED_MIND['a_few']['satisfied']
             ]))
             ->has(Purpose::factory()->sequence([
                 'key' => array_keys(Purpose::STANDARD_PURPOSES_CHANGED_MIND)[2],
+                'order' => Purpose::STANDARD_PURPOSES_CHANGED_MIND['not_really']['order'] ,
                 'label' => Purpose::STANDARD_PURPOSES_CHANGED_MIND['not_really']['label'] ,
                 'icon' => Purpose::STANDARD_PURPOSES_CHANGED_MIND['not_really']['icon'] ,
                 'satisfied' => Purpose::STANDARD_PURPOSES_CHANGED_MIND['not_really']['satisfied']
             ]))
             ->has(Purpose::factory()->sequence([
                 'key' => array_keys(Purpose::STANDARD_PURPOSES_CHANGED_MIND)[3],
+                'order' => Purpose::STANDARD_PURPOSES_CHANGED_MIND['no']['order'] ,
                 'label' => Purpose::STANDARD_PURPOSES_CHANGED_MIND['no']['label'] ,
                 'icon' => Purpose::STANDARD_PURPOSES_CHANGED_MIND['no']['icon'] ,
                 'satisfied' => Purpose::STANDARD_PURPOSES_CHANGED_MIND['no']['satisfied']

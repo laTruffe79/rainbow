@@ -1,7 +1,7 @@
 <div x-data="{ dragging: false }"
-     class=" px-5 bg-gradient-custom mb-10 shadow-xl shadow-blue-950 hover:shadow-blue-900 rounded-xl border border-blue-900">
+     class=" bg-gradient-custom mb-10 shadow-xl shadow-blue-950 hover:shadow-blue-900 rounded-xl border border-blue-900">
 
-    <div class="my-10 text-lg grid grid-cols-2">
+    <div class="my-10 px-5 text-lg grid grid-cols-2">
         <div>
             <span class="mr-2">{{ $index+1 }} - {{ $question->question }}</span>
         </div>
@@ -16,19 +16,21 @@
 
     @if($editable)
 
-        <div
-            class="grid grid-cols-2 gap-4 border-t border-blue-900 mt-3 pt-3">
+        <div class="grid grid-cols-2 border-t border-blue-900 mt-3">
             <div id="dragDiv{{$index}}"
-                 x-on:dragover.prevent="adding = true"
+                 x-data="{adding:false}"
+                 x-on:dragover.prevent="adding = true;"
                  x-on:drop.prevent="dropData = JSON.parse($event.dataTransfer.getData('application/json'));
                     target = document.querySelector('div#dragDiv{{$index}}');
                     id = dropData.id;element = document.getElementById(id);
                     document.querySelector('div#dropDiv{{$index}}').removeChild(element);
                     target.appendChild(element);
+                    adding = false;
                     $wire.detachPurposeToQuestion(dropData.purposeId);"
 
                  class="dragDiv border-gray-200 rounded-xl p-6">
                 <h2 class=" mb-10 leading-4 text-center">Réponses possibles</h2>
+
 
                 @foreach($constantPurposes[$question->purpose_type] as $key => $availablePurpose)
 
@@ -37,8 +39,9 @@
                             $availablePurpose['key'] = $key;
                         @endphp
                         <button
+                            x-data="{dragging:false}"
                             id="{{$key}}{{$index}}"
-                            :class=" dragging ? 'bg-amber-600' : '' "
+                            :class=" dragging ? 'bg-green-600 text-gray-200' : 'bg-fuchsia-600 hover:bg-fuchsia-500' "
                             x-on:dragstart.self="
                             dragging = true;
                             data = JSON.stringify({ id :$event.target.id, questionId:'{{$question->id}}', purpose: {{json_encode($availablePurpose)}} })
@@ -46,7 +49,8 @@
                             $event.dataTransfer.setData('application/json', data);
                             "
                             x-on:dragend.self="dragging = false"
-                            class="mr-2 mb-2 px-6 py-2 text-center rounded-lg border border-gray-200 text-gray-200 bg-fuchsia-600 hover:bg-fuchsia-500"
+                            class="mr-2 mb-2 px-6 py-2 text-center rounded-lg border border-gray-200
+                            text-gray-200 "
                             draggable="true">
                             <div class="flex flex-col items-center">
                                 @svg($availablePurpose['icon'],'h-8 w-8 fill-current')
@@ -60,6 +64,8 @@
 
             </div>
             <div
+                x-data="{adding:false}"
+
                 id="dropDiv{{$index}}"
                 x-on:dragover.prevent="adding = true"
                 x-on:drop.prevent="dropData = JSON.parse($event.dataTransfer.getData('application/json'));
@@ -67,8 +73,9 @@
                     id = dropData.id;
                     element = document.getElementById(id);
                     document.querySelector('div#dragDiv{{$index}}').removeChild(element);
-                    target.appendChild(element)
-                    $wire.attachPurposeToQuestion(dropData.purpose,dropData.questionId)"
+                    target.appendChild(element);
+                    adding = false;
+                    $wire.attachPurposeToQuestion(dropData.purpose,dropData.questionId);"
                 class="dropDiv border-blue-900 border-l p-6">
                 <h2 class=" mb-10 leading-5 text-center">
                     Réponses attribuées
@@ -78,15 +85,16 @@
 
                     @if($purpose->question_id == $question->id)
                         <button
+                            x-data="{dragging:false}"
                             id="{{$purpose->key}}{{$key}}"
-                            :class=" dragging ? 'bg-amber-600' : '' "
+                            :class=" dragging ? 'bg-gray-200 text-fuchsia-500 ' : 'text-gray-200 bg-fuchsia-600 hover:bg-fuchsia-500' "
                             x-on:dragstart.self="
                             dragging = true;
                             data = JSON.stringify({ id :$event.target.id, questionId:'{{$question->id}}', purposeId : {{$purpose->id}} })
                             $event.dataTransfer.effectAllowed = 'move';
                             $event.dataTransfer.setData('application/json', data);"
                             x-on:dragend.self="dragging = false"
-                            class="mr-2 mb-2 px-6 py-2 text-center  rounded-lg border border-gray-200 text-gray-200 bg-fuchsia-600 hover:bg-fuchsia-500"
+                            class="mr-2 mb-2 px-6 py-2 text-center rounded-lg border border-gray-200"
                             draggable="true">
                             <div class="flex flex-col items-center">
                                 @svg($purpose['icon'],'h-8 w-8 fill-current')
