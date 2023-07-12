@@ -7,6 +7,7 @@ awareness conference on respecting LGBT🏳️‍🌈 individuals.
 
 It provides the ability :  
 
+- To create surveys and collecting feedback
 - To open sessions by showing a QR code
 - To generate reports by sessions
 - To send reports by email
