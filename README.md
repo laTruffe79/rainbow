@@ -1,7 +1,9 @@
 
 ## Rainbow App
 
-Rainbow is a Laravel-based application designed to collect feedback from middle school and high school students after awareness conference on respecting LGBT individuals..
+Rainbow is a Laravel-based application designed to collect 
+feedback from middle school and high school students after 
+awareness conference on respecting LGBT🏳️‍🌈 individuals.
 
 It provides the ability :  
 
@@ -10,8 +12,10 @@ It provides the ability :
 - To send reports by email
 - To generate global reports
 
-Thanks to all laravel ecosystem contributors ! ❤️
-
 ## License
 
 This app is open-sourced software licensed under the [MIT license](https://opensource.org/licenses/MIT).
+
+Thanks to all laravel ecosystem contributors ! ❤️
+
+🏳️‍🌈 ❤️ is ❤️ !
