@@ -45,7 +45,7 @@ class Answer extends Model
      */
     public function purpose(): BelongsTo
     {
-        return $this->belongsTo(Purpose::class);
+        return $this->belongsTo(AvailablePurpose::class,'available_purpose_id');
     }
 
     /**

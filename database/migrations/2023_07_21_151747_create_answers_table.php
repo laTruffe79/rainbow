@@ -27,10 +27,10 @@ return new class extends Migration
                     ->references('id')
                     ->on('questions');
 
-                $table->unsignedBigInteger('purpose_id');
-                $table->foreign('purpose_id')
+                $table->unsignedBigInteger('available_purpose_id');
+                $table->foreign('available_purpose_id')
                     ->references('id')
-                    ->on('purposes');
+                    ->on('available_purposes');
 
                 $table->unsignedBigInteger('session_id');
                 $table->foreign('session_id')

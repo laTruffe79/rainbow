@@ -48,7 +48,7 @@ class AnswerController extends Controller
                 [
                     'participant_id' => $validatedData['participant_id'],
                     'question_id' => $validatedData['question_id'],
-                    'purpose_id' => $validatedData['purpose_id'],
+                    'available_purpose_id' => $validatedData['available_purpose_id'],
                     'session_id' => $validatedData['session_id'],
                     'comment' => $validatedData['comment'],
                 ]

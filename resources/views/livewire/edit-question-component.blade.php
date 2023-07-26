@@ -1,20 +1,12 @@
-<div x-data="{ dragging: false }"
+<div x-data="{ dragging: false, showQuestions:false }"
      class=" bg-gradient-custom mb-10 shadow-xl shadow-blue-950 hover:shadow-blue-900 rounded-xl border border-blue-900">
 
     <div class="my-10 px-5 text-lg grid grid-cols-2">
         <div>
             <span class="mr-2">{{ $index+1 }} - {{ $question->question }}</span>
         </div>
-        <div>
-            @if($editable)
-                <span class="hover:text-fuchsia-500 text-fuchsia-600 hover:cursor-pointer">
-            @svg('icon-zondicons.edit-pencil','mr-2 inline-block fill-current h4 w-4 ') Modifier la question</span>
-            @endif
-        </div>
-
+        <div></div>
     </div>
-
-    @if($editable)
 
         <div class="grid grid-cols-2 border-t border-blue-900 mt-3">
             <div id="dragDiv{{$index}}"
@@ -31,23 +23,20 @@
                  class="dragDiv border-gray-200 rounded-xl p-6">
                 <h2 class=" mb-10 leading-4 text-center">Réponses possibles</h2>
 
+                @foreach($constantPurposes as $key => $availablePurpose)
 
-                @foreach($constantPurposes[$question->purpose_type] as $key => $availablePurpose)
+                    @if(!in_array($availablePurpose->key,$purposesArrayKeys))
 
-                    @if(!in_array($key,$purposesArrayKeys[$question->id]))
-                        @php
-                            $availablePurpose['key'] = $key;
-                        @endphp
                         <button
-                            x-data="{dragging:false}"
+                            x-data="{dragging:false, availablePurposeToJson: {!! str_replace('"', "'", $availablePurpose->toJson()) !!} }"
                             id="{{$key}}{{$index}}"
                             :class=" dragging ? 'bg-green-600 text-gray-200' : 'bg-fuchsia-600 hover:bg-fuchsia-500' "
                             x-on:dragstart.self="
                             dragging = true;
-                            data = JSON.stringify({ id :$event.target.id, questionId:'{{$question->id}}', purpose: {{json_encode($availablePurpose)}} })
+                            data = JSON.stringify({ id :$event.target.id, questionId: {{ $question->id }} , purpose: availablePurposeToJson })
                             $event.dataTransfer.effectAllowed = 'move';
                             $event.dataTransfer.setData('application/json', data);
-                            "
+                    		"
                             x-on:dragend.self="dragging = false"
                             class="mr-2 mb-2 px-6 py-2 text-center rounded-lg border border-gray-200
                             text-gray-200 "
@@ -109,11 +98,7 @@
             </div>
         </div>
 
-    @else
 
-        <span class="text-fuchsia-500"> @svg('icon-zondicons.exclamation-solid','mr-2 inline-block fill-current h4 w-4 ') Non modifiable, des réponses à cette question existent</span>
-
-    @endif
 
 
 </div>

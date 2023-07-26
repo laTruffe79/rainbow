@@ -10,10 +10,10 @@
     @livewireStyles
 
 </head>
-<body x-data="{selectedPurposeId:null}" class="antialiased blue-bg-app px-8">
+<body x-data="{selectedPurposeId:null}" class="antialiased blue-bg-app px-5">
 
 <div class="flex items-top py-5 justify-center sm:justify-start sm:pt-0">
-    @svg($illustrations[rand(0,5)],"w-1/2 h-1/2")
+    @svg($illustrations[rand(0,5)],"w-3/4 h-3/4")
 </div>
 
 <div class="w-full items-top justify-left
@@ -26,10 +26,10 @@
         sm:items-center px-8 sm:pt-0">
 </div>
 
-<div class="w-full text-gray-200 p-3 border-gray-200 border rounded-lg mb-8 blue-card-app">
-    <h1 class="text-gray-200 text-lg qu">
+<div class="w-full text-gray-200 p-5 border-gray-200 border rounded-lg mb-8 blue-card-app">
+    <q class="text-gray-200 text-lg italic">
         {{ $question->question }}
-    </h1>
+    </q>
 
     <form method="POST"
           action="{{route('answer.store',['session_id' => $session->id,'participant_id' =>$participant->id,'question_id' => $question->id, 'nextQuestionIndex' => $nextQuestionIndex])}}"
@@ -38,20 +38,20 @@
         <div class="grid grid-cols-2 gap-4 mt-2">
             @foreach($question->purposes as $key => $purpose)
                 <button
-                    x-bind:class="selectedPurposeId=='{{ $purpose->id }}' ? 'bg-fuchsia-800 border-fuchsia-500 shadow-fuchsia-500' : 'bg-gradient-custom border-blue-900 shadow-blue-900'"
-                    x-on:click.prevent="selectedPurposeId='{{ $purpose->id }}'"
+                    x-bind:class="selectedPurposeId=='{{ $purpose->available_purpose_id }}' ? 'bg-fuchsia-800 border-fuchsia-500 shadow-fuchsia-500' : 'bg-gradient-custom border-blue-900 shadow-blue-900'"
+                    x-on:click.prevent="selectedPurposeId='{{ $purpose->available_purpose_id }}'"
                     class="grow text-center p-3 text-gray-200 flex flex-col justify-center items-center
                      shadow-lg rounded-xl border ">
                     @svg($purpose->icon,"w-8 h-8 fill-current text-gray-200 mb-2")
                     <span>{{$purpose->label}}</span>
                 </button>
             @endforeach
-            <input type="hidden" name="purpose_id" id="purpose_id" x-model="selectedPurposeId">
+            <input type="hidden" name="available_purpose_id" id="available_purpose_id" x-model="selectedPurposeId">
         </div>
 
         <textarea class="mt-6 border border-gray-200 resize-none w-full h-full blue-card-app pl-5 pt-5 pr-5 pb-5"
                   style="padding: 5px;"
-                  rows="6"
+                  rows="4"
                   name="comment"
                   placeholder="Pourquoi ce choix ? (facultatif)"></textarea>
         <div class="w-full text-center text-gray-200 my-4">

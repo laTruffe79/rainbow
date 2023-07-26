@@ -48,7 +48,7 @@
 
         <div class="grid grid-cols-2">
             <div class="my-4">
-                <x-custom-btn href="{{route('session.create')}}" text="Créer une session"></x-custom-btn>
+                <x-custom-btn href="{{route('session.create')}}" text="Créer une session" icon=""></x-custom-btn>
             </div>
             <div class="h-auto flex flex-col justify-center">
                 <x-menu />
@@ -108,9 +108,7 @@
                 </div>
             </div>
 
-
         </div>
-
 
         @include('footer')
 

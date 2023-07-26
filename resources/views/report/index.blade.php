@@ -34,7 +34,7 @@
 
         <div class="grid grid-cols-2">
             <div class="my-4">
-                <x-custom-btn href="{{route('adminHome')}}" text="Retour"></x-custom-btn>
+                <x-custom-btn href="{{route('adminHome')}}" text="Retour" icon=""></x-custom-btn>
             </div>
 
             <div class="h-auto flex flex-col justify-center text-right text-gray-200">

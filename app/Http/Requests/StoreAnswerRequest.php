@@ -11,7 +11,7 @@ class StoreAnswerRequest extends FormRequest
      *
      * @return bool
      */
-    public function authorize()
+    public function authorize(): bool
     {
         return true;
     }
@@ -25,7 +25,7 @@ class StoreAnswerRequest extends FormRequest
     {
         return [
             'session_id' => 'required|integer',
-            'purpose_id' => 'required|integer',
+            'available_purpose_id' => 'required|integer',
             'participant_id' => 'required|integer',
             'question_id' => 'required|integer',
             'comment' => 'nullable|string',

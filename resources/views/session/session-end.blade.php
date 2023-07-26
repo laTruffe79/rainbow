@@ -10,36 +10,43 @@
     @livewireStyles
 
 </head>
-<body class="antialiased blue-bg-app">
-    <div class="relative flex items-top justify-center w-screen
-        sm:items-center py-4 px-8  sm:pt-0">
-        <h1 class="text-gray-200 text-2xl">Merci pour votre participation</h1>
-    </div>
+<body class="antialiased blue-bg-app px-8 text-center w-screen">
 
-    <div class="flex items-top justify-center sm:justify-start sm:pt-0">
+    <div class="flex w-full items-top justify-center sm:justify-start sm:pt-0">
         @svg('icon-lgbt.Free love-amico',"h-42 w-42")
     </div>
 
-    <div class="w-screen px-8 text-gray-200">
-        {{--<h2 class="text-gray-200 text-xl my-8 text-center">
-            Merci pour votre participation
-        </h2>--}}
-        <p class="mb-5 text-justify">
-            Besoin d'aide pour toi ou un ami ? N'hésite pas à
-            appeler Adhéos ou en parler à
-            l'intervenant de cette formation.
-        </p>
+    <div class="w-full p-5 blue-card-app border border-gray-200 rounded-lg shadow-xl shadow-blue-900 mt-8">
 
-        <div class="w-full text-center text-gray-200 mt-6">
-            <a href="https://www.adheos.org" class="px-8 w-full text-gray-200 text-xl tracking-wider py-4 rounded-lg bg-gradient-to-r
-   from-violet-900 to-fuchsia-600 hover:bg-fuchsia-600
-    transition-all transition ease-in-out duration-1000 font-bold" type="button">www.adheos.org</a>
+        <div class=" justify-center pb-5 w-full">
+            <h1 class="text-gray-200 text-xl">Merci pour ta participation 🙏🏻</h1>
         </div>
 
+        <div class="w-full text-gray-200">
+
+            <p class="mb-5 text-justify">
+                Besoin d'aide pour toi ou un ami ?
+            </p>
+            <p>
+                Tu as des questions que tu n'as pas osé poser ?
+            </p>
+            <p>
+                N'hésite pas à
+                appeler Adhéos ou en parler dès maintenant à l'intervenant de cette formation.
+            </p>
+
+            <div class="w-full text-center text-gray-200 mt-6">
+                <a href="https://www.adheos.org" class="px-8 w-full text-gray-200 text-xl tracking-wider py-4 rounded-lg bg-gradient-to-r
+   from-violet-900 to-fuchsia-600 hover:bg-fuchsia-600
+    transition-all transition ease-in-out duration-1000 font-bold" type="button">www.adheos.org</a>
+            </div>
+
+        </div>
     </div>
 
+
 <script src="{{ mix('js/app.js') }}" defer></script>
-@livewireScripts
+{{--@livewireScripts--}}
 </body>
 </html>
 

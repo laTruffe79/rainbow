@@ -42,7 +42,7 @@ class Question extends Model
      */
     public function purposes(): HasMany
     {
-        return $this->hasMany(Purpose::class);
+        return $this->hasMany(Purpose::class)->orderBy('order');
     }
 
     /**
@@ -66,7 +66,7 @@ class Question extends Model
      */
     public function purposesThroughAnswers():BelongsToMany
     {
-        return $this->belongsToMany(Purpose::class,'answers');
+        return $this->belongsToMany(AvailablePurpose::class,'answers','available_purpose_id');
     }
 
 }

@@ -23,46 +23,50 @@
             @svg('logo',"h-36 w-36")
         </div>
 
+        <div class="text-center pt-8 mb-5">
+            <h2 class="text-gray-200 font-bold text-2xl">Gestion des questionnaires</h2>
+        </div>
+
         <div class="grid grid-cols-2">
             <div class="my-4">
-                <x-custom-btn href="{{route('adminHome')}}" text="Retour"></x-custom-btn>
+                <x-custom-btn href="{{route('adminHome')}}" text="Retour" icon=""></x-custom-btn>
+            </div>
+            <div
+                class="text-fuchsia-500 h-6 h-auto flex flex-col justify-items-end items-end hover:cursor-pointer">
+                <x-custom-btn href="{{route('adminHome')}}" text="Créer questionnaire" icon=""></x-custom-btn>
+                {{-- @svg('icon-zondicons.document-add','ml-2 inline-block fill-current h8 w-8 text-fuchsia-500')--}}
             </div>
         </div>
 
 
+        @if(isset($surveys))
+            @foreach($surveys as $key => $survey)
         <div
-            class="mt-3 bg-white blue-card-app dark:blue-card-app overflow-hidden border border-gray-200 rounded-lg">
+            class="mt-3 py-5 bg-white blue-card-app dark:blue-card-app overflow-hidden border border-gray-200 rounded-lg">
 
-            <div class="text-center pt-8 mb-5">
-                <h2 class="text-gray-200 font-bold text-2xl">Gestion des questionnaires</h2>
-            </div>
-
-            @if(isset($surveys))
-                @foreach($surveys as $key => $survey)
                     {{--Item--}}
                     <div class="flex h-auto px-6">
 
-                        <div class="flex-grow flex-1">
-                            <a href="#" x-on:click.prevent=""
-                               class="cursor-default no-underline text-xl leading-7 font-bold text-gray-200">
-                                Titre du questionnaire : {{ $survey->title }}<br>
-                                Questionnaire crée le : {{$survey->created_at->format('d-m-Y')}}<br>
-                                <span class="italic">Description : {{$survey->description}}</span>
-                            </a>
-                        </div>
+                        @livewire('edit-survey-component',[
+    							'surveyId' => $survey->id
+                        	]
+                        )
 
-                        <div class="w-16 pl-6 text-fuchsia-600 flex justify-items-end">
-                            <a class="w-auto h-auto" title="Restaurer la session" href="">
-                                @svg('icon-fontawesome.svgs.solid.circle-question','fill-current h6 w-6 hover:text-fuchsia-500')
-                            </a>
-                        </div>
                     </div>
                     @if(count($survey->questions) > 0)
                         <div x-data="{showQuestions:false}">
-                            <div class="text-gray-200 px-6 my-5">
+
+                            <div class="text-gray-200 px-6 my-5 text-lg">
                                 <span class="hover:cursor-pointer"
+                                      x-show="!showQuestions"
                                       x-on:click="showQuestions=!showQuestions">
-                                    Questions @svg('icon-fontawesome.svgs.solid.angle-down','ml-2 inline-block fill-current h6 w-6 hover:text-fuchsia-500')
+                                    Assigner des réponses aux questions @svg('icon-fontawesome.svgs.solid.angle-down','ml-2 inline-block fill-current h6 w-6 text-fuchsia-500')
+                                </span>
+                                <span class="hover:cursor-pointer"
+                                      x-cloak
+                                      x-show="showQuestions"
+                                      x-on:click="showQuestions=!showQuestions">
+                                    Assigner des réponses aux questions @svg('icon-fontawesome.svgs.solid.angle-up','ml-2 inline-block fill-current h6 w-6 text-fuchsia-500')
                                 </span>
 
                             </div>
@@ -70,17 +74,11 @@
                                 <ul class="">
                                     @foreach($survey->questions as $index => $question)
 
-                                        @php
-
-                                            $editable = count($question->answers) === 0;
-
-                                        @endphp
-
                                         @livewire('edit-question-component',
                                                  ['questionId' => $question->id,
                                                  'surveyId' => $survey->id,
                                                  'index' => $index,
-                                                 'editable' => $editable ]
+                                                 'editable' => count($question->answers) === 0 ]
                                         )
 
                                     @endforeach
@@ -92,11 +90,10 @@
                     @endif
 
                     {{--End item--}}
-                @endforeach
-            @endif
 
         </div>
-
+        	@endforeach
+        @endif
         @include('footer')
 
     </div>

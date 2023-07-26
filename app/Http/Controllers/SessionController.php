@@ -70,7 +70,7 @@ class SessionController extends Controller
                 $q->where('satisfiable',true);
             })
             ->get();
-        //\dd($answers);
+        //dd($answers);
 
         $countParticipants = DB::table('answers')->distinct('participant_id')
             ->where('session_id',$session->id)
@@ -89,6 +89,7 @@ class SessionController extends Controller
             $resultByQuestion = array();
 
             foreach ($answers as $answer){
+
                 if(!isset($resultByQuestion[$answer->question_id])){
                     $resultByQuestion[$answer->question_id] = $answer->purpose->satisfied;
                 }else{
@@ -306,12 +307,15 @@ class SessionController extends Controller
     {
 
         /*get school list*/
-        $schools = \App\Models\School::orderBy('name')->get();
+        $schools = School::orderBy('name')->get();
 
         /*get animators list*/
         $animators = \App\Models\Animator::orderBy('name')->get();
 
-        return \view('session-create',\compact('schools','animators'));
+        /* get survey list */
+        $surveys = Survey::orderBy('created_at')->get();
+
+        return \view('session-create',\compact('schools','animators','surveys'));
     }
 
     /**
@@ -323,13 +327,12 @@ class SessionController extends Controller
     public function store(Request $request): RedirectResponse
     {
 
-        //\dd($request);
-
         // validation
         $validated = $request->validate([
             'title' => 'required|regex:/^[a-zA-Zéèàçôïâ0-9\'\.,\- ]{1,50}$/i|max:50',
             'school_id' => 'integer|nullable',
             'animator_id' => 'integer|required',
+            'survey_id' => 'integer|required',
             'name' => 'required_without:school_id|regex:/^[a-zA-Zéèàçôïâ0-9\'\.,\- ]{1,50}$/i|max:50',
             'phone' => 'digits:10|nullable',
             'postal_code' => 'required_without:school_id|digits:5',
@@ -337,7 +340,6 @@ class SessionController extends Controller
             'contact' => 'string|max:100|nullable',
         ]);
 
-        //dd($validated);
 
         //create school if not exists
         if(!isset($validated['school_id'])){
@@ -351,21 +353,16 @@ class SessionController extends Controller
                     'contact' => $validated['contact'],
                 ]);
         }else{
-            $school = \App\Models\School::find($validated['school_id']);
+            $school = School::find($validated['school_id']);
         }
 
-        //dd($school);
-
-        $survey = Survey::all()->first();
 
         $session = Session::factory()->create([
             'school_id' => $school->id,
-            'survey_id' => $survey->id,
+            'survey_id' => $validated['survey_id'],
             'animator_id' => $validated['animator_id'],
             'title' => $validated['title'],
         ]);
-
-        //\dd($request);
 
         return redirect()->route('adminHome');
 

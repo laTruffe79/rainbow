@@ -18,13 +18,13 @@
     </div>
 
     <div class="w-full items-top justify-left
-        sm:items-center text-gray-200 sm:pt-0 mb-5 pl-2">
+        sm:items-center text-gray-200 sm:pt-0 mb-8 pl-2">
         <h1 class="text-2xl">Bilan de la formation</h1>
         <p class="text-xs">{{$session->school->name}} - {{$session->title}}
         </p>
     </div>
 
-    <div class="grid grid-cols-2 gap-3 mb-5 w-full items-top justify-center
+    <div class="grid grid-cols-2 gap-3 mb-8 w-full items-top justify-center
         sm:items-center sm:pt-0 text-gray-200 text-left">
 
         <div class="bg-gradient-custom p-3 shadow-xl shadow-blue-900 text-center rounded-xl border border-blue-900">

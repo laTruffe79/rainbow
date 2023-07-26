@@ -16,13 +16,14 @@
     x-data="{
         sessionTitle:null,
         selectedSchoolId:'',
+        surveyId:null,
         animatorId:null,
         schoolName:null,
         postalCode:null,
         validSubmit:false,
     validate(){
         if( !this.animatorId || !this.sessionTitle){ return false }
-        if( !this.selectedSchoolId && (!this.schoolName || !this.postalCode) ){ return false }
+        if( !this.selectedSchoolId && !this.surveyId (!this.schoolName || !this.postalCode) ){ return false }
         return true;
     }}"
     class="relative flex items-top justify-center min-h-screen blue-bg-app dark:blue-bg-app sm:items-center py-4 sm:pt-0">
@@ -33,22 +34,23 @@
             @svg('logo',"h-36 w-36")
         </div>
 
+        <div class="text-center pt-4 mb-5">
+            <h2 class="text-gray-200 font-bold text-2xl">Créer une session </h2>
+        </div>
+
         <div class=" block my-8 w-auto">
-            <x-custom-btn href="{{route('adminHome')}}" text="Retour liste des sessions"></x-custom-btn>
+            <x-custom-btn href="{{route('adminHome')}}" text="Retour liste des sessions" icon=""></x-custom-btn>
         </div>
 
         <div
             class="mt-12 mb-12 px-6 py-4 bg-white blue-card-app dark:blue-card-app overflow-hidden border border-gray-200
             rounded-lg">
 
-            <div class="text-center pt-4 mb-5">
-                <h2 class="text-gray-200 font-bold text-2xl">Créer une session </h2>
-            </div>
-
             <form action="{{route('session.store')}}" method="POST">
 
                 @csrf
 
+                <h2 class="text-gray-200 text-xl text-start my-4">Titre de la session</h2>
                 {{--Session title--}}
                 <div class="flex justify-start">
                     <div class="mb-3 w-full">
@@ -86,6 +88,29 @@
                             <option value="" selected>Sélectionner un animateur</option>
                             @foreach($animators as $animator)
                                 <option value="{{$animator->id}}">{{ucfirst($animator->name)}}</option>
+                            @endforeach
+                        </select>
+                    </div>
+                </div>
+
+                <h2 class="text-gray-200 text-xl text-start my-4">Questionnaire</h2>
+                {{--select animator--}}
+                <div class="flex justify-start mt-4">
+                    <div class="mb-3 w-full">
+                        <select
+                            x-model="surveyId"
+                            name="survey_id"
+                            style="padding-left: 6px;"
+                            class="form-select appearance-none
+                          block w-full px-5 py-2 font-normal text-gray-700
+                          text-xl bg-white bg-clip-padding bg-no-repeat
+                          border border-solid border-gray-300 rounded transition ease-in-out m-0
+                          focus:text-gray-700 focus:bg-white focus:border-blue-600 focus:outline-none"
+                            aria-label="Default select example">
+                            <option value="" selected>Sélectionner un questionnaire</option>
+                            @foreach($surveys as $survey)
+                                <option value="{{$survey->id}}">le : {{$survey->created_at->format('d-m-Y')}} - Titre : {{ucfirst($survey->title)}}
+                                    - description : {{$survey->description}}</option>
                             @endforeach
                         </select>
                     </div>
@@ -136,6 +161,7 @@
                 </div>
 
                 {{--school postal code --}}
+                <h2 class="text-gray-200 text-xl text-start my-4">Code postal de l'établissement</h2>
                 <div class="flex justify-start mt-8">
                     <div class="mb-3 w-full">
                         <input
@@ -157,6 +183,7 @@
                 </div>
 
                 {{--school phone--}}
+                <h2 class="text-gray-200 text-xl text-start my-4">Téléphone de l'établissement</h2>
                 <div class="flex justify-start mt-8">
                     <div class="mb-3 w-full">
                         <input
@@ -176,6 +203,7 @@
                 </div>
 
                 {{--school contact--}}
+                <h2 class="text-gray-200 text-xl text-start my-4">Contact de l'établissement</h2>
                 <div class="flex justify-start mt-8 mb-8">
                     <div class="mb-3 w-full">
                         <input
@@ -195,6 +223,7 @@
                 </div>
 
                 {{--school email--}}
+                <h2 class="text-gray-200 text-xl text-start my-4">E-mail de l'établissement</h2>
                 <div class="flex justify-start mt-8 mb-8">
                     <div class="mb-3 w-full">
                         <input
