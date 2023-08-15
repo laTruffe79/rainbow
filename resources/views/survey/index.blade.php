@@ -12,7 +12,6 @@
 </head>
 <body class="antialiased">
 
-
 <div
     class="relative flex items-top justify-center min-h-screen blue-bg-app dark:blue-bg-app
     sm:items-center py-4 sm:pt-0">
@@ -33,8 +32,7 @@
             </div>
             <div
                 class="text-fuchsia-500 h-6 h-auto flex flex-col justify-items-end items-end hover:cursor-pointer">
-                <x-custom-btn href="{{route('adminHome')}}" text="Créer questionnaire" icon=""></x-custom-btn>
-                {{-- @svg('icon-zondicons.document-add','ml-2 inline-block fill-current h8 w-8 text-fuchsia-500')--}}
+                <x-custom-btn href="{{route('survey.create')}}" text="Créer questionnaire" icon=""></x-custom-btn>
             </div>
         </div>
 

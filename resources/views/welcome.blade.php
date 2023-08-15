@@ -77,11 +77,12 @@
                            x-on:click.prevent="$dispatch('modal-{{$session->id}}',{value:'{{$session->qrcode}}'})"
                            x-bind:class="enabledLink ? 'fill-fuchsia-500 hover:fill-fuchsia-400' : 'fill-gray-400 hover:cursor-default'"
                            href="" data-bs-toggle="modal" data-bs-target="#exampleModal">
-                            <x-icon-icomoon.057-qrcode class="w-8 h-8"/>
+                            @svg('icon-icomoon.057-qrcode','w-full')
+                            {{--<x-icon-icomoon.057-qrcode class="w-8 h-8"/>--}}
                         </a>
 
                     </div>
-                    <div class="flex-grow flex-1">
+                    <div class="flex-grow flex-1 pl-5">
                         <a href="#" x-on:click.prevent="" class="cursor-default leading-7 font-bold underline text-gray-200">
                             {{$session->created_at->format('d-m-Y')}}
                             {{$session->school->name}} - {{ $session->title }}<br>

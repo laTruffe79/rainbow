@@ -1,11 +1,76 @@
 <div x-data="{ dragging: false, showQuestions:false }"
      class=" bg-gradient-custom mb-10 shadow-xl shadow-blue-950 hover:shadow-blue-900 rounded-xl border border-blue-900">
 
-    <div class="my-10 px-5 text-lg grid grid-cols-2">
-        <div>
-            <span class="mr-2">{{ $index+1 }} - {{ $question->question }}</span>
+    <div x-data="{
+            showQuestionField{{ $questionId }}:false,
+                handleFocusQuestionField($refs) {
+                    if(this.showQuestionField{{ $questionId }} === true){
+                        $refs.questionField{{ $questionId }}.focus()
+                        $refs.questionField{{ $questionId }}.setSelectionRange($refs.questionField{{ $questionId }}.value.length, $refs.questionField{{ $questionId }}.value.length)
+                    }
+                }
+            }"
+        class="my-10 px-5 text-lg grid grid-cols-1">
+        <div class="flex align-items-center h-12">
+
+            <span class="mr-2 my-auto min-w-fit">{{ $index+1 }} - </span>
+
+            @if($hasAnswers)
+                <q class="my-auto">
+                    {{ $question->question }}
+                </q>
+                <p
+                    class="italic my-auto">
+                    @svg('icon-zondicons.information-solid','h-4 w-4 fill text-fuchsia-500 fill-current inline-block')
+                    Cette question n'est pas modifiable car des réponses existent, créez un autre questionnaire
+                </p>
+            @else
+
+                <q  x-on:click.prevent="showQuestionField{{ $questionId }} = !showQuestionField{{ $questionId }}; $nextTick(() => { handleFocusQuestionField($refs) })"
+                    class="my-auto cursor-pointer w-auto px-5 py-2 border border-fuchsia-500 rounded-lg text-gray-200"
+                    x-show="!showQuestionField{{ $questionId }}">
+                    {{ $question->question }}
+                </q>
+
+                <input
+                    x-show="showQuestionField{{ $questionId }}"
+                    x-ref="questionField{{ $questionId }}"
+                    x-cloak
+                    x-on:keydown.enter="showQuestionField{{ $questionId }} = !showQuestionField{{ $questionId }}"
+                    x-on:focusout="showQuestionField{{ $questionId }} = false"
+                    type="text"
+                    name="tile"
+                    id="title"
+                    class="my-auto text-gray-200 w-1/4 focus:w-full transition-all duration-700 ease-in-out
+                    outline-none ring-0 border-fuchsia-500 border-2
+                    mx-2 px-5 py-2 rounded-lg bg-transparent shadow-xl shadow-blue-950"
+                    value="{{$question->question}}"
+                    wire:model.debounce.300ms="questionField">
+
+                <a class="my-auto w-auto h-auto inline-block ml-2 text-fuchsia-500"
+                   x-on:click.prevent="showQuestionField{{ $questionId }} = !showQuestionField{{ $questionId }}; $nextTick(() => { handleFocusQuestionField($refs) })"
+                   x-show="!showQuestionField{{ $questionId }}"
+                   href=""
+                   title="Éditer le titre">
+                    @svg('icon-fontawesome.svgs.solid.pencil','fill-current h-4 w-4')
+                </a>
+                <a class="my-auto w-auto h-auto inline-block ml-2 text-fuchsia-500 ml-3"
+                   x-cloak
+                   href=""
+                   x-show="showQuestionField{{ $questionId }}"
+                   x-on:click.prevent="showQuestionField{{ $questionId }} = !showQuestionField{{ $questionId }}"
+                   title="Cliquez pour valider le titre ou appuyez sur Entrée">
+                    @svg('icon-fontawesome.svgs.solid.check','fill-current h-6 w-6')
+                </a>
+                @error('question')
+                <span class="error text-red-500">{{$message}}</span>
+                @enderror
+
+
+            @endif
+
         </div>
-        <div></div>
+
     </div>
 
         <div class="grid grid-cols-2 border-t border-blue-900 mt-3">

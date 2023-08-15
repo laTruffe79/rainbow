@@ -10,16 +10,19 @@ class customBtn extends Component
     public string $text;
     public string $href;
     public string $icon;
+    public string $disabled;
+
     /**
      * Create a new component instance.
      *
      * @return void
      */
-    public function __construct(?string $icon, string $text, string $href, )
+    public function __construct(?string $icon, string $text, string $href, ?bool $disabled = false)
     {
         $this->text = $text;
         $this->href = $href;
-       	$this->icon = $icon ;
+        $this->icon = $icon;
+        $this->disabled = $disabled;
 
     }
 

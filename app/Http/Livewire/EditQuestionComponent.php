@@ -13,15 +13,53 @@ use Livewire\Component;
 class EditQuestionComponent extends Component
 {
     public int $questionId;
+    public Question $question;
+    public string $questionField;
     public int $surveyId;
     public int $index;
+    public bool $hasAnswers;
+
+    protected $rules = [
+
+        'questionField' => "required|regex:/^[\pL\s\-1-9\?\(\)\']+$/u|min:3|max:100",
+
+    ];
+
+    protected $messages  = [
+        'questionField.regex' => 'La question ne doit contenir que des caractères alphanumériques',
+        'questionField.min' => 'La question doit faire 3 caractères minimum',
+        'questionField.max' => 'La question doit faire 100 caractères maximum',
+    ];
 
 
-    public function mount($questionId,$index,$surveyId)
+    /**
+     * @param $questionId
+     * @param $index
+     * @param $surveyId
+     * @return void
+     */
+    public function mount($questionId,$index,$surveyId): void
     {
         $this->questionId = $questionId;
         $this->index = $index;
         $this->surveyId = $surveyId;
+        $this->hasAnswers = Question::find($questionId)->answers()->count() > 0;
+
+        $this->question = Question::find($questionId);
+        $this->questionField = $this->question->question;
+
+    }
+
+    /**
+     * @param string $value
+     * @return bool
+     */
+    public function updatedQuestionField(string $value): bool
+    {
+
+        $this->resetValidation();
+        $this->validate();
+        return $this->question->update(['question' => $value]);
 
     }
 
@@ -32,10 +70,6 @@ class EditQuestionComponent extends Component
     {
         $question = Question::with(['purposes'])->findOrFail($this->questionId);
         $index = $this->index;
-
-        /*$standardPurposesSatisfaction = Purpose::STANDARD_PURPOSES_SATISFACTION;*/
-        /*$standardPurposeUtility = Purpose::STANDARD_PURPOSES_UTILITY;*/
-
 
         //get attached purposes to this survey
         $surveyId = $this->surveyId;

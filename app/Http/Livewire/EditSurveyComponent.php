@@ -55,9 +55,7 @@ class EditSurveyComponent extends Component
     public function updatedTitle(string $value): bool
     {
         $this->resetValidation();
-
         $this->validate();
-
         return $this->survey->update(['title' => $value]);
 
     }

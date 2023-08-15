@@ -22,7 +22,7 @@
             Titre du questionnaire :
         </span>
         <span
-            class="my-auto mx-2 cursor-pointer"
+            class="my-auto mx-2 cursor-pointer w-auto px-5 py-2 border border-fuchsia-500 rounded-lg text-gray-200"
             x-on:click="showTitleField = true;$nextTick(() => { handleFocusTitleField($refs) })"
             x-show="!showTitleField">
              {{ $survey->title }}
@@ -31,12 +31,15 @@
             x-show="showTitleField"
             x-ref="title"
             x-cloak
-            x-on:keydown.enter="showTitleField =! showTitleField"
+            x-on:keydown.enter="showTitleField = !showTitleField"
+            x-on:focusout="showTitleField = false"
             type="text"
             name="tile"
             id="title"
-            class="my-auto text-gray-800 w-1/2 mx-2 px-5 py-2 border border-blue-950 rounded-lg"
-
+            class="my-auto
+            w-1/4 focus:w-1/2 transition-all duration-700 ease-in-out
+            outline-none ring-0 border-fuchsia-500 border-2
+            mx-2 px-5 py-2 rounded-lg text-gray-200 bg-transparent shadow-xl shadow-blue-950"
             value="{{$survey->title}}"
             wire:model.debounce.300ms="title">
         <a class="my-auto w-auto h-auto inline-block ml-2 text-fuchsia-500"
@@ -65,7 +68,7 @@
         <span
             x-show="!showDescriptionField"
             x-on:click="showDescriptionField = true; $nextTick(() => { handleFocusDescriptionField($refs) })"
-            class="my-auto ml-2 cursor-pointer">
+            class="my-auto mx-2 cursor-pointer w-auto px-5 py-2 border border-fuchsia-500 rounded-lg text-gray-200">
             {{$survey->description}}
         </span>
         <input
@@ -73,10 +76,15 @@
             x-cloak
             x-ref="description"
             x-on:keydown.enter="showDescriptionField =! showDescriptionField"
+            x-on:focusout="showDescriptionField = false"
+
             type="text"
             name="description"
             id="description"
-            class="my-auto text-gray-800 w-1/2 mx-2 px-5 py-2 border border-blue-950 rounded-lg"
+            class="my-auto mx-2 w-1/4 focus:w-1/2
+             transition-all duration-700 ease-in-out
+             outline-none focus:ring-0 border-fuchsia-500 border-2
+             px-5 py-2 rounded-lg text-gray-200 bg-transparent shadow-xl shadow-blue-950"
             value="{{$survey->description}}"
             wire:model.debounce.300ms="description">
         <a class="my-auto w-auto h-auto inline-block ml-2 text-fuchsia-500"

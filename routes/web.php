@@ -57,6 +57,7 @@ Route::post('/admin/report/pdf', [ReportController::class,'createPdfReport'])->n
 /* Surveys management */
 Route::get('admin/survey/index',[SurveyController::class,'index'])->name('survey.index');
 Route::get('admin/survey/edit/{survey}',[SurveyController::class,'edit'])->name('survey.edit');
+Route::get('admin/survey/create',[SurveyController::class,'create'])->name('survey.create');
 
 
 

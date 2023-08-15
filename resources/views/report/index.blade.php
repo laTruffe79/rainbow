@@ -12,7 +12,6 @@
 </head>
 <body class="antialiased">
 
-
 <div
     x-data="{
         'htmlCharts':'test',
