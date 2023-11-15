@@ -61,6 +61,7 @@ class EditQuestionComponent extends Component
         $this->validate();
         return $this->question->update(['question' => $value]);
 
+
     }
 
     /**
